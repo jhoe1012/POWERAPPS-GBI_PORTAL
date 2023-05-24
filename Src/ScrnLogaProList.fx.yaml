@@ -1,0 +1,921 @@
+ScrnLogaProList As screen:
+    OnVisible: |-
+        =UpdateContext({lclShowConfirm:false})
+
+    CmpntHeader_6 As CmpntHeader:
+        HeaderText: ="Logistics and Procurement Documents"
+        HomeNavigation: =ScrnLandingPage
+        Width: =Parent.Width
+
+    HtmlText3 As htmlViewer:
+        AutoHeight: =true
+        Height: =41
+        HtmlText: |-
+            ="<table
+            style='table-layout: fixed;width: 100%; border: solid 1px black;border-collapse: collapse; background-color: RGBA(255, 255, 255, 1);'>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold;  min-width: 10%; max-width: 10%;width: 10%;text-align:center;'>
+            Customer Name</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Manufacturing Plant</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Document Type</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Term of Contract</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            
+            Commencement Date </td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Termination Date </td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Responsible Person </td>
+            </tr>
+            
+            </table>"
+        PaddingBottom: =0
+        PaddingLeft: =4
+        PaddingRight: =10
+        PaddingTop: =0
+        Size: =9
+        Width: =Parent.Width
+        Y: =CmpntHeader_6.Y+CmpntHeader_6.Height
+        ZIndex: =2
+
+    GalLogaPro As gallery.variableTemplateHeightGallery:
+        Height: =687
+        Items: |-
+            =//LOGISTICSANDPROCUREMENT_DB
+            If(
+                gblUserInfo.LogaProRole <> Blank(),
+                Filter(
+                    LOGISTICSANDPROCUREMENT_DB,
+                    StartsWith(
+                        Customer,
+                        TxtCustomer.Text
+                    ),
+                    IsBlank(CmbxMfgPlant.Selected.Title) || IsEmpty(CmbxMfgPlant.Selected.Title) || ManufacturingPlant = CmbxMfgPlant.Selected.Title,
+                    IsBlank(CmbxDocumentType_2.Selected.Title) || IsEmpty(CmbxDocumentType_2.Selected.Title) || 'DocumentType ' = CmbxDocumentType_2.Selected.Title,
+                    IsBlank(CmbxTermofContract.Selected.Title) || IsEmpty(CmbxTermofContract.Selected.Title) || TermofContract = CmbxTermofContract.Selected.Title,
+                    IsBlank(DpCDFrom_2.SelectedDate) || IsEmpty(DpCDFrom_2.SelectedDate) || IsBlank(DpCDTo_2.SelectedDate) || IsEmpty(DpCDTo_2.SelectedDate) || ((CommencementDate >=   DpCDFrom_2.SelectedDate) && (CommencementDate <= DpCDTo_2.SelectedDate)),
+                    IsBlank(DpTDFrom_2.SelectedDate) || IsEmpty(DpTDFrom_2.SelectedDate) || IsBlank(DpTDTo_2.SelectedDate) || IsEmpty(DpTDTo_2.SelectedDate) || ((TerminationDate >= DpTDFrom_2.SelectedDate) && (TerminationDate <= DpTDTo_2.SelectedDate)),
+                    IsBlank(CmbxDocumentStatus.Selected.Value) || IsEmpty(CmbxDocumentStatus.Selected.Value) || DocumentStatus = CmbxDocumentStatus.Selected.Value
+                )
+            )
+        Layout: =Layout.Vertical
+        ShowScrollbar: =false
+        TemplateFill: =If(ThisItem.IsSelected,RGBA(66, 209, 245,.5), RGBA(0, 0, 0, 0))
+        TemplatePadding: =0
+        TemplateSize: =65
+        Width: =Parent.Width
+        Y: =81
+        ZIndex: =3
+
+        HtmlText4 As htmlViewer:
+            AutoHeight: =true
+            Height: =32
+            HtmlText: |-
+                ="<table
+                style='table-layout: fixed;width: 100%; border: solid 1px black;border-collapse: collapse; background-color: RGBA(255, 255, 255, 0);'>
+                <tr>
+                <td
+                style='border: solid 1px black; padding: 5px ;  min-width: 10%; max-width: 10%;width: 10%;text-align:center;'>
+                "& ThisItem.Customer &"</td>
+                <td
+                style='border: solid 1px black; padding: 5px ;  min-width: 10%; max-width: 10%;width: 10%;text-align:center;'>
+                "& ThisItem.ManufacturingPlant &"</td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                "& ThisItem.'DocumentType ' &" </td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                "& ThisItem.TermofContract &" </td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                "& ThisItem.CommencementDate &"</td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                "& ThisItem.TerminationDate &" </td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                "& Substitute(ThisItem.'ResponsiblePerson ', "|", "<br>") &" </td>
+                </tr>
+                </table>"
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =15
+            PaddingTop: =0
+            Width: =Parent.Width
+            X: =4
+            ZIndex: =1
+
+    GrpArchive_LogaPro As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =23
+
+        Rectangle5_2 As rectangle:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            Fill: =RGBA(230, 230, 230, 0.2)
+            Height: =Parent.Height
+            Visible: =lclShowConfirm
+            Width: =Parent.Width
+            ZIndex: =5
+
+        CmpntHTMBG_3 As CmpntHTMBG:
+            Height: =210
+            Visible: =lclShowConfirm
+            Width: =522
+            X: =(Parent.Width * 0.5) - (Self.Width*0.5)
+            Y: =(Parent.Height * 0.5) - (Self.Height*0.5)
+            ZIndex: =6
+
+        HtmlDialog_2 As htmlViewer:
+            AutoHeight: =true
+            Font: =Font.Arial
+            Height: =0
+            HtmlText: ="<p>Are you sure you want to Archive <b>" & GalLogaPro.Selected.Customer & " </b>? </p>"
+            PaddingBottom: =0
+            PaddingTop: =0
+            Size: =13
+            Visible: =lclShowConfirm
+            Width: =456
+            X: =(Parent.Width * 0.5) - (Self.Width*0.5)
+            Y: =CmpntHTMBG_3.Y+20
+            ZIndex: =7
+
+        BtnV2Cancel_3 As button:
+            BorderColor: =gblPButtonReject.BorderColor
+            BorderStyle: =gblPButtonReject.BorderStyle
+            BorderThickness: =gblPButtonReject.BorderThickness
+            Color: =gblPButtonReject.Color
+            Fill: =gblPButtonReject.Fill
+            FocusedBorderColor: =gblPButtonReject.FocusedBorderColor
+            FocusedBorderThickness: =gblPButtonReject.FocusedBorderThickness
+            Font: =gblPButtonReject.Font
+            FontWeight: =gblPButtonReject.FontWeight
+            Height: =gblPButtonReject.Height
+            HoverBorderColor: =gblPButtonReject.HoverBorderColor
+            HoverColor: =gblPButtonReject.HoverColor
+            HoverFill: =gblPButtonReject.HoverFill
+            OnSelect: |-
+                =UpdateContext({lclShowConfirm: false})
+            PressedBorderColor: =gblPButtonReject.PressedBorderColor
+            PressedColor: =gblPButtonReject.PressedColor
+            PressedFill: =gblPButtonReject.PressedFill
+            RadiusBottomLeft: =gblPButtonReject.RadiusBottomLeft
+            RadiusBottomRight: =gblPButtonReject.RadiusBottomRight
+            RadiusTopLeft: =gblPButtonReject.RadiusTopLeft
+            RadiusTopRight: =gblPButtonReject.RadiusTopRight
+            Size: =gblPButtonReject.Size
+            Text: ="Cancel"
+            Visible: =lclShowConfirm
+            Width: =gblPButtonReject.Width
+            X: =BtnV2Yes_2.X+BtnV2Yes_2.Width+10
+            Y: |
+                =(CmpntHTMBG_3.Y+CmpntHTMBG_3.Height) - Self.Height - 50
+            ZIndex: =8
+
+        BtnV2Yes_2 As button:
+            BorderColor: =gblPButtonApprove.BorderColor
+            BorderStyle: =gblPButtonApprove.BorderStyle
+            BorderThickness: =gblPButtonApprove.BorderThickness
+            Color: =gblPButtonApprove.Color
+            Fill: =gblPButtonApprove.Fill
+            FocusedBorderColor: =gblPButtonApprove.FocusedBorderColor
+            FocusedBorderThickness: =gblPButtonApprove.FocusedBorderThickness
+            Font: =gblPButtonApprove.Font
+            FontWeight: =gblPButtonApprove.FontWeight
+            Height: =gblPButtonApprove.Height
+            HoverBorderColor: =gblPButtonApprove.HoverBorderColor
+            HoverColor: =gblPButtonApprove.HoverColor
+            HoverFill: =gblPButtonApprove.HoverFill
+            OnSelect: |-
+                =Patch(
+                    gblLogaProDB,
+                    GalLogaPro.Selected,
+                    {DocumentStatus: "Archived"}
+                );
+                UpdateContext({lclShowConfirm: false})
+            PressedBorderColor: =gblPButtonApprove.PressedBorderColor
+            PressedColor: =gblPButtonApprove.PressedColor
+            PressedFill: =gblPButtonApprove.PressedFill
+            RadiusBottomLeft: =gblPButtonApprove.RadiusBottomLeft
+            RadiusBottomRight: =gblPButtonApprove.RadiusBottomRight
+            RadiusTopLeft: =gblPButtonApprove.RadiusTopLeft
+            RadiusTopRight: =gblPButtonApprove.RadiusTopRight
+            Size: =gblPButtonReject.Size
+            Text: ="Yes"
+            Visible: =lclShowConfirm
+            Width: =gblPButtonApprove.Width
+            X: =HtmlDialog_2.X+HtmlDialog_2.Width*0.5-Self.Width*1
+            Y: |
+                =(CmpntHTMBG_3.Y+CmpntHTMBG_3.Height) - Self.Height - 50
+            ZIndex: =9
+
+    GrpFilter_LogaProList As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =38
+
+        CmpntHtmlBackGround_3 As CmpntHtmlBackGround:
+            Height: =Parent.Height-CmpntHeader_1.Height
+            Visible: =lclShowFilter
+            Width: =Parent.Width*0.42
+            X: =764
+            Y: =CmpntHeader_5.X+CmpntHeader_5.Height-5
+            ZIndex: =18
+
+        TxtCustomer As text:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            Default: =""
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HintText: ="Search "
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =328
+            X: =969
+            Y: =66
+            ZIndex: =19
+
+        LblCustomer As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Customer Name"
+            Visible: =lclShowFilter
+            Width: =165
+            X: =804
+            Y: =66
+            ZIndex: =20
+
+        LblDocumentType_2 As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Document Type"
+            Visible: =lclShowFilter
+            Width: =LblCustomer.Width
+            X: =804
+            Y: =149
+            ZIndex: =21
+
+        CmbxDocumentType_2 As combobox:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            ChevronBackground: =gblPInput.ChevronBackground
+            ChevronFill: =gblPInput.ChevronFill
+            ChevronHoverBackground: =gblPInput.ChevronHoverBackground
+            ChevronHoverFill: =gblPInput.ChevronHoverFill
+            Color: =gblPInput.Color
+            DefaultSelectedItems: =
+            DisplayFields: =["Title"]
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="Document Category"
+            IsSearchable: =false
+            Items: =Filter(dd_DocumentType, LogandPro = true)
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            SearchFields: =["Title"]
+            SearchItems: =[]
+            SelectionTagColor: =gblPInput.SelectionTagColor
+            SelectionTagFill: =gblPInput.SelectionTagFill
+            SelectMultiple: =false
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            X: =969
+            Y: =149
+            ZIndex: =22
+
+        LblCommenceDate_2 As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =FontWeight.Bold
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Commencement Date"
+            Visible: =lclShowFilter
+            Width: =LblCustomer.Width
+            X: =804
+            Y: =231
+            ZIndex: =23
+
+        DpCDFrom_2 As datepicker:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            DefaultDate: =
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =26
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="From"
+            IsEditable: =true
+            PaddingTop: =5
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedFill: =gblPInput.PressedFill
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =TxtCustomer.Width * 0.45
+            X: =969
+            Y: =231
+            ZIndex: =24
+
+        DpCDTo_2 As datepicker:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            DefaultDate: =
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="To"
+            IsEditable: =true
+            PaddingTop: =5
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedFill: =gblPInput.PressedFill
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =TxtCustomer.Width * 0.45
+            X: =1146
+            Y: =231
+            ZIndex: =25
+
+        LblTerrminationDate_2 As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =FontWeight.Bold
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Termination Date"
+            Visible: =lclShowFilter
+            Width: =LblCustomer.Width
+            X: =804
+            Y: =278
+            ZIndex: =26
+
+        DpTDFrom_2 As datepicker:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            DefaultDate: =
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =26
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="From"
+            IsEditable: =true
+            PaddingTop: =5
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedFill: =gblPInput.PressedFill
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =TxtCustomer.Width * 0.45
+            X: =969
+            Y: =278
+            ZIndex: =27
+
+        DpTDTo_2 As datepicker:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            DefaultDate: =
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="To"
+            IsEditable: =true
+            PaddingTop: =5
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedFill: =gblPInput.PressedFill
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =TxtCustomer.Width * 0.45
+            X: =1146
+            Y: =278
+            ZIndex: =28
+
+        LblMfgPlant As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Manufacturing Plant"
+            Visible: =lclShowFilter
+            Width: =LblCustomer.Width
+            X: =804
+            Y: =107
+            ZIndex: =29
+
+        CmbxMfgPlant As combobox:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            ChevronBackground: =gblPInput.ChevronBackground
+            ChevronFill: =gblPInput.ChevronFill
+            ChevronHoverBackground: =gblPInput.ChevronHoverBackground
+            ChevronHoverFill: =gblPInput.ChevronHoverFill
+            Color: =gblPInput.Color
+            DefaultSelectedItems: =
+            DisplayFields: =["Title"]
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="Document Category"
+            IsSearchable: =false
+            Items: =Filter(dd_ManufacturingPlant, LogandPro = true)
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            SearchFields: =["Title"]
+            SearchItems: =[]
+            SelectionTagColor: =gblPInput.SelectionTagColor
+            SelectionTagFill: =gblPInput.SelectionTagFill
+            SelectMultiple: =false
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            X: =969
+            Y: =107
+            ZIndex: =30
+
+        LblDocumentStat As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Document Status"
+            Visible: =lclShowFilter
+            Width: =LblCustomer.Width
+            X: =LblCustomer.X
+            Y: =323
+            ZIndex: =31
+
+        CmbxDocumentStatus As combobox:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            ChevronBackground: =gblPInput.ChevronBackground
+            ChevronFill: =gblPInput.ChevronFill
+            ChevronHoverBackground: =gblPInput.ChevronHoverBackground
+            ChevronHoverFill: =gblPInput.ChevronHoverFill
+            Color: =gblPInput.Color
+            DefaultSelectedItems: =
+            DisplayFields: =["Value"]
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="Document Category"
+            IsSearchable: =false
+            Items: =["Active", "Archived"]
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            SearchFields: =["Value"]
+            SearchItems: =[]
+            SelectionTagColor: =gblPInput.SelectionTagColor
+            SelectionTagFill: =gblPInput.SelectionTagFill
+            SelectMultiple: =false
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            X: =TxtCustomer.X
+            Y: =323
+            ZIndex: =32
+
+        LblTermofContract As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Term of Contract"
+            Visible: =lclShowFilter
+            Width: =LblCustomer.Width
+            X: =803
+            Y: =190
+            ZIndex: =33
+
+        CmbxTermofContract As combobox:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            ChevronBackground: =gblPInput.ChevronBackground
+            ChevronFill: =gblPInput.ChevronFill
+            ChevronHoverBackground: =gblPInput.ChevronHoverBackground
+            ChevronHoverFill: =gblPInput.ChevronHoverFill
+            Color: =gblPInput.Color
+            DefaultSelectedItems: =
+            DisplayFields: =["Title"]
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="Document Category"
+            IsSearchable: =false
+            Items: =Filter(dd_TermOfContract, LogandPro = true)
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            SearchFields: =["Title"]
+            SearchItems: =[]
+            SelectionTagColor: =gblPInput.SelectionTagColor
+            SelectionTagFill: =gblPInput.SelectionTagFill
+            SelectMultiple: =false
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            X: =968
+            Y: =190
+            ZIndex: =34
+
+    GrpNav_LogaProList As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =40
+
+        BtnNew_LogaProList As button:
+            Align: =Align.Right
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.StoreOpsRole = gblConstRole.UPLOADER || gblUserInfo.StoreOpsRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            FocusedBorderThickness: =2
+            Height: =27
+            HoverBorderColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =Color.Black
+            OnSelect: |-
+                =Set(
+                    gblLogaProDB,
+                    Blank()
+                );
+                NewForm(FrmLogaPro);
+                Navigate(
+                    ScrnLogaProForm,
+                    ScreenTransition.Fade
+                )
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =20
+            PaddingTop: =0
+            PressedBorderColor: =RGBA(255, 255, 255, 1)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =Color.Black
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Size: =10
+            Text: ="NEW"
+            Width: =92
+            X: =1192
+            Y: =15
+            ZIndex: =4
+
+        BtnEdit_LogaProList As button:
+            Align: =Align.Right
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.StoreOpsRole = gblConstRole.UPLOADER || gblUserInfo.StoreOpsRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            FocusedBorderThickness: =2
+            Height: =27
+            HoverFill: =Color.Black
+            OnSelect: |-
+                =Set(
+                    gblLogaProDB,
+                    GalLogaPro.Selected
+                );
+                EditForm(FrmLogaPro);
+                Navigate(
+                    ScrnLogaProForm,
+                    ScreenTransition.Fade
+                )
+            PaddingRight: =20
+            PressedBorderColor: =ColorFade(Self.BorderColor, 20%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =Color.Black
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Size: =10
+            Text: ="EDIT"
+            Width: =92
+            X: =963
+            Y: =15
+            ZIndex: =10
+
+        BtnViewDoc_LogaProList As button:
+            Align: =Align.Right
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =Color.Black
+            FocusedBorderThickness: =2
+            Height: =27
+            HoverFill: =Color.Black
+            OnSelect: =Launch(Concatenate(Last(GalLogaPro.Selected.Attachments).AbsoluteUri, "?web=1"))
+            PaddingBottom: =7
+            PaddingRight: =20
+            PressedBorderColor: =ColorFade(Self.BorderColor, 20%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =Color.Black
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Size: =10
+            Text: ="VIEW"
+            Width: =92
+            X: =861
+            Y: =15
+            ZIndex: =11
+
+        BtnArchive_LogaProList As button:
+            Align: =Align.Right
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.LogaProRole = gblConstRole.UPLOADER || gblUserInfo.StoreOpsRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            FocusedBorderThickness: =2
+            Height: =27
+            HoverBorderColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =Color.Black
+            OnSelect: |-
+                =UpdateContext({lclShowConfirm:true})
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =20
+            PaddingTop: =0
+            PressedBorderColor: =RGBA(255, 255, 255, 1)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =Color.Black
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Size: =10
+            Text: ="ARCHIVE"
+            Width: =110
+            X: =1065
+            Y: =15
+            ZIndex: =12
+
+        IcnArchive_LogaProList As icon.Document:
+            Color: =Color.White
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.StoreOpsRole = gblConstRole.UPLOADER || gblUserInfo.StoreOpsRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            Fill: =Color.Transparent
+            Height: =27
+            Icon: =Icon.Folder
+            OnSelect: =Select(BtnArchive_LogaProList)
+            Width: =16
+            X: =1082
+            Y: =15
+            ZIndex: =13
+
+        IcnEdit_LogaProList As icon.Edit:
+            Color: =RGBA(255, 255, 255, 1)
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.StoreOpsRole = gblConstRole.UPLOADER || gblUserInfo.StoreOpsRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            Height: =27
+            Icon: =Icon.Edit
+            OnSelect: =Select(BtnEdit_LogaProList)
+            Width: =16
+            X: =980
+            Y: =15
+            ZIndex: =14
+
+        IcnNew_LogaProList As icon.Add:
+            Color: =Color.White
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.StoreOpsRole = gblConstRole.UPLOADER || gblUserInfo.StoreOpsRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            Height: =27
+            Icon: =Icon.Add
+            OnSelect: =Select(BtnNew_LogaProList)
+            Width: =16
+            X: =1202
+            Y: =15
+            ZIndex: =15
+
+        IcnView_LogaProList As icon.Document:
+            Color: =Color.White
+            Fill: =Color.Transparent
+            Height: =27
+            Icon: =Icon.Document
+            OnSelect: =Select(BtnViewDoc_LogaProList)
+            Width: =16
+            X: =878
+            Y: =15
+            ZIndex: =16
+
+        IcnMenu_LogaProList As icon.Add:
+            Color: =Color.White
+            Height: =27
+            HoverColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Icon: =Icon.FilterFlat
+            OnSelect: |-
+                =UpdateContext({lclShowFilter: !lclShowFilter})
+            PressedColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Width: =30
+            X: =1294
+            Y: =15
+            ZIndex: =17
+
+        IcnDownload_LogaProList As icon.Add:
+            Color: =Color.White
+            Height: =27
+            HoverColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Icon: =Icon.Download
+            OnSelect: |-
+                =Substitute(
+                    Concatenate(
+                        "[",
+                        Concat(
+                            GalLogaPro.AllItems,
+                            "{" 
+                            & Char(34) & "Customer" & Char(34) & ":" & Char(34) & Customer & Char(34) & "," 
+                            & Char(34) & "Manufacturing Plant" & Char(34) & ":" & Char(34) & ManufacturingPlant & Char(34) & "," 
+                            & Char(34) & "Document Type" & Char(34) & ":" & Char(34) & 'DocumentType ' & Char(34) & "," 
+                            & Char(34) & "Term of Contract" & Char(34) & ":" & Char(34) & TermofContract & Char(34) & "," 
+                            & Char(34) & "Commencement Date" & Char(34) & ":" & Char(34) & CommencementDate & Char(34) & "," 
+                            & Char(34) & "Termination Date" & Char(34) & ":" & Char(34) & TerminationDate & Char(34) & "," 
+                            & Char(34) & "Responsible" & Char(34) & ":" & Char(34) & 'ResponsiblePerson ' & Char(34) & "," 
+                            & Char(34) & "People to notify" & Char(34) & ":" & Char(34) & PeopletoNotify & Char(34) & "," 
+                            & Char(34) & "Share To" & Char(34) & ":" & Char(34) & SharetoAll & Char(34) & "," 
+                            & Char(34) & "Document Status" & Char(34) & ":" & Char(34) & DocumentStatus & Char(34)  
+                            & "},"
+                        ),
+                        "]"
+                    ),
+                    ",]",
+                    "]"
+                )
+            PressedColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Width: =30
+            X: =1335
+            Y: =14
+            ZIndex: =35
+
+        excelexport_LogandProList As excelexport:
+            BackgroundColor: ="transparent"
+            ButtonHeight: ="45"
+            ButtonText: =""
+            dataToExport: |-
+                =Substitute(
+                    Concatenate(
+                        "[",
+                        Concat(
+                            GalLogaPro.AllItems,
+                            "{" 
+                            & Char(34) & "Customer" & Char(34) & ":" & Char(34) & Customer & Char(34) & "," 
+                            & Char(34) & "Manufacturing Plant" & Char(34) & ":" & Char(34) & ManufacturingPlant & Char(34) & "," 
+                            & Char(34) & "Document Type" & Char(34) & ":" & Char(34) & 'DocumentType ' & Char(34) & "," 
+                            & Char(34) & "Term of Contract" & Char(34) & ":" & Char(34) & TermofContract & Char(34) & "," 
+                            & Char(34) & "Commencement Date" & Char(34) & ":" & Char(34) & CommencementDate & Char(34) & "," 
+                            & Char(34) & "Termination Date" & Char(34) & ":" & Char(34) & TerminationDate & Char(34) & "," 
+                            & Char(34) & "Responsible" & Char(34) & ":" & Char(34) & 'ResponsiblePerson ' & Char(34) & "," 
+                            & Char(34) & "People to notify" & Char(34) & ":" & Char(34) & PeopletoNotify & Char(34) & "," 
+                            & Char(34) & "Share To" & Char(34) & ":" & Char(34) & SharetoAll & Char(34) & "," 
+                            & Char(34) & "Document Status" & Char(34) & ":" & Char(34) & DocumentStatus & Char(34)  
+                            & "},"
+                        ),
+                        "]"
+                    ),
+                    ",]",
+                    "]"
+                )
+            DisplayMode: =DisplayMode.Edit
+            FileName: ="Logistics and Procurement"
+            Height: =50
+            TextColor: ="transparent"
+            Tooltip: ="Export To Excel "
+            Width: =35
+            X: =1331
+            Y: =0
+            ZIndex: =36
+

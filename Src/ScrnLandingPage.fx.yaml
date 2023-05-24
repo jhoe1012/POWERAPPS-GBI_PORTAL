@@ -1,0 +1,328 @@
+ScrnLandingPage As screen:
+    BackgroundImage: =
+    Fill: =RGBA(0, 0, 0, 0)
+    ImagePosition: =ImagePosition.Fill
+
+    CmpntHeader_1 As CmpntHeader:
+        HeaderText: ="GBI DOCUMENT PORTAL"
+        Height: =46
+        ShowIcon: =false
+        Width: =Parent.Width
+
+    Rectangle1 As rectangle:
+        Fill: =RGBA(250, 250, 250, 1)
+        Height: =722
+        Width: =Parent.Width
+        Y: =46
+        ZIndex: =2
+
+    ContainerLandingPage As groupContainer:
+        Height: =722
+        Width: =Max(App.Width, App.MinScreenWidth)
+        Y: =46
+        ZIndex: =3
+
+        ImgLandingPage As image:
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =722
+            Image: ='GBI logo'
+            Width: =Parent.Width
+            ZIndex: =1
+
+        BtnProcurement As button:
+            FocusedBorderThickness: =2
+            Height: =100
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 1), -20%)
+            OnSelect: =Navigate(ScrnLogaProList,ScreenTransition.Fade)
+            PaddingLeft: =80
+            PressedBorderColor: =Self.Color
+            PressedColor: =Self.HoverColor
+            PressedFill: =Self.HoverFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Procurement"
+            Width: =300
+            X: =BtnStoreOps.X+BtnStoreOps.Width + 30
+            Y: =96
+            ZIndex: =2
+
+        BtnLegal As button:
+            FocusedBorderThickness: =2
+            Height: =100
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 1), -20%)
+            OnSelect: =Navigate(ScrnLegalList,ScreenTransition.Fade)
+            PaddingLeft: =70
+            PressedBorderColor: =Self.Color
+            PressedColor: =Self.HoverColor
+            PressedFill: =Self.HoverFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Legal"
+            Width: =300
+            X: =BtnStoreOps.X
+            Y: =222
+            ZIndex: =3
+
+        BtnStoreOps As button:
+            FocusedBorderThickness: =2
+            Height: =100
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 1), -20%)
+            OnSelect: =Navigate(ScrnStoreOpsHome,ScreenTransition.Fade)
+            PaddingLeft: =80
+            PressedBorderColor: =Self.Color
+            PressedColor: =Self.HoverColor
+            PressedFill: =Self.HoverFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Store Operation"
+            Width: =300
+            X: =BtnMarketing.X+BtnMarketing.Width + 30
+            Y: =96
+            ZIndex: =4
+
+        BtnMarketing As button:
+            FocusedBorderThickness: =2
+            Height: =100
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 1), -20%)
+            OnSelect: =Navigate(ScrnMarketingList,ScreenTransition.Fade)
+            PaddingLeft: =80
+            PressedBorderColor: =Self.Color
+            PressedColor: =Self.HoverColor
+            PressedFill: =Self.HoverFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Marketing"
+            Width: =300
+            X: =(Parent.Width * 0.48 ) -((BtnMarketing.Width+BtnStoreOps.Width +BtnProcurement.Width) * 0.5 )
+            Y: =96
+            ZIndex: =5
+
+        BtnIT As button:
+            FocusedBorderThickness: =2
+            Height: =100
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 1), -20%)
+            OnSelect: =Navigate(ScrnItList,ScreenTransition.Fade)
+            PaddingLeft: =70
+            PressedBorderColor: =Self.Color
+            PressedColor: =Self.HoverColor
+            PressedFill: =Self.HoverFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="IT"
+            Width: =300
+            X: =BtnMarketing.X
+            Y: =222
+            ZIndex: =6
+
+        BtnFinance As button:
+            FocusedBorderThickness: =2
+            Height: =100
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 1), -20%)
+            OnSelect: =Navigate(ScrnFinanceList,ScreenTransition.Fade)
+            PaddingLeft: =70
+            PressedBorderColor: =Self.Color
+            PressedColor: =Self.HoverColor
+            PressedFill: =Self.HoverFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Finance"
+            Width: =300
+            X: =BtnStoreOps.X
+            Y: =353
+            ZIndex: =7
+
+        BtnHR As button:
+            FocusedBorderThickness: =2
+            Height: =100
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 1), -20%)
+            OnSelect: =Navigate(ScrnHrList,ScreenTransition.Fade)
+            PaddingLeft: =70
+            PressedBorderColor: =Self.Color
+            PressedColor: =Self.HoverColor
+            PressedFill: =Self.HoverFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="HR"
+            Width: =300
+            X: =BtnProcurement.X
+            Y: =222
+            ZIndex: =8
+
+        BtnManufacturing As button:
+            FocusedBorderThickness: =2
+            Height: =100
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 1), -20%)
+            OnSelect: =Navigate(ScrnManufacturingList,ScreenTransition.Fade)
+            PaddingLeft: =80
+            PressedBorderColor: =Self.Color
+            PressedColor: =Self.HoverColor
+            PressedFill: =Self.HoverFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="Manufacturing"
+            Width: =300
+            X: =BtnMarketing.X
+            Y: =353
+            ZIndex: =9
+
+        Icon_StoreOps As icon.ShoppingCart:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =98
+            Icon: =Icon.ShoppingCart
+            OnSelect: =Select(BtnStoreOps)
+            Width: =80
+            X: =BtnMarketing.X+BtnMarketing.Width + 40
+            Y: =98
+            ZIndex: =10
+
+        Icon_Marketing As icon.Trending:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =98
+            Icon: =Icon.Trending
+            OnSelect: =Select(BtnMarketing)
+            Width: =80
+            X: =BtnMarketing.X + 15
+            Y: =96
+            ZIndex: =11
+
+        Icon_IT As icon.ComputerSimple:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =98
+            Icon: =Icon.Devices
+            OnSelect: =Select(BtnIT)
+            Width: =80
+            X: =Icon_Marketing.X
+            Y: =222
+            ZIndex: =12
+
+        Icon_Legal As icon.Document:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =98
+            Icon: =Icon.Document
+            OnSelect: =Select(BtnLegal)
+            Width: =80
+            X: =Icon_StoreOps.X
+            Y: =222
+            ZIndex: =13
+
+        Icon_Finance As icon.Currency:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =98
+            Icon: =Icon.Currency
+            OnSelect: =Select(BtnFinance)
+            Width: =80
+            X: =Icon_StoreOps.X
+            Y: =353
+            ZIndex: =14
+
+        Icon_HR As icon.People:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =98
+            Icon: =Icon.People
+            OnSelect: =Select(BtnHR)
+            Width: =80
+            X: =Icon_Procurement.X
+            Y: =222
+            ZIndex: =15
+
+        Icon_Manufacturing As icon.Manufacture:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =98
+            Icon: =Icon.Manufacture
+            OnSelect: =Select(BtnManufacturing)
+            Width: =80
+            X: =Icon_Marketing.X
+            Y: =353
+            ZIndex: =16
+
+        BtnHSE As button:
+            FocusedBorderThickness: =2
+            Height: =100
+            HoverFill: =ColorFade(RGBA(0, 0, 0, 1), -20%)
+            OnSelect: |-
+                =Launch("https://apps.powerapps.com/play/aeb7a54f-92e3-481e-b157-8ce0f00862af?tenantId=af7302a2-b536-4d8b-bc51-09da778b3c30")
+            PaddingLeft: =70
+            PressedBorderColor: =Self.Color
+            PressedColor: =Self.HoverColor
+            PressedFill: =Self.HoverFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Text: ="HSE"
+            Width: =300
+            X: =BtnProcurement.X
+            Y: =353
+            ZIndex: =17
+
+        Icon_HSE As icon.Health:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =98
+            Icon: =Icon.Health
+            OnSelect: =Select(BtnHSE)
+            Width: =80
+            X: =Icon_Procurement.X
+            Y: =353
+            ZIndex: =18
+
+        Icon_Procurement As icon.Tag:
+            Color: =RGBA(255, 255, 255, 1)
+            Height: =98
+            Icon: =Icon.Tag
+            OnSelect: =Select(BtnProcurement)
+            Width: =80
+            X: =BtnStoreOps.X+BtnStoreOps.Width + 40
+            Y: =96
+            ZIndex: =19
+
+    Button1 As button:
+        Color: =RGBA(0, 0, 0, 0)
+        Fill: =RGBA(0, 0, 0, 0)
+        HoverBorderColor: =RGBA(255, 255, 255, 0)
+        HoverColor: =RGBA(255, 255, 255, 0)
+        HoverFill: =RGBA(255, 255, 255, 0)
+        PressedBorderColor: =RGBA(255, 255, 255, 0)
+        PressedColor: =RGBA(255, 255, 255, 0)
+        PressedFill: =RGBA(255, 255, 255, 0)
+        Text: =""
+        Tooltip: ="Version 1.3"
+        X: =Parent.Width-Self.Width
+        ZIndex: =4
+
+    Label3 As label:
+        Color: =RGBA(255, 0, 0, 1)
+        Height: =25
+        Size: =10
+        Text: =Concatenate(Label1)
+        Width: =63
+        X: =(Parent.Width * 0.48 ) -((BtnMarketing.Width+BtnStoreOps.Width +BtnProcurement.Width) * 0.5 )
+        Y: =140
+        ZIndex: =5
+
+    Label3_1 As label:
+        Color: =RGBA(255, 0, 0, 1)
+        Height: =25
+        Size: =10
+        Text: =Concatenate(Label4)
+        Width: =63
+        X: =(Parent.Width * 0.48 ) -((BtnMarketing.Width+BtnStoreOps.Width +BtnProcurement.Width) * 0.13 )
+        Y: =394
+        ZIndex: =6
+

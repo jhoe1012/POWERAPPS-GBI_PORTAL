@@ -1,0 +1,850 @@
+ScrnStoreOpsList As screen:
+    OnVisible: |-
+        =UpdateContext({lclShowConfirm:false})
+
+    CmpntHeader_5 As CmpntHeader:
+        HeaderText: ="Store Operations  - Store Expansion Documents"
+        HomeNavigation: =ScrnStoreOpsHome
+        Width: =Parent.Width
+
+    HtmlText1 As htmlViewer:
+        AutoHeight: =true
+        Height: =34
+        HtmlText: |-
+            ="<table
+            style='table-layout: fixed;width: 100%; border: solid 1px black;border-collapse: collapse; background-color: RGBA(255, 255, 255, 1);'>
+            <tr>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold;  min-width: 10%; max-width: 10%;width: 10%;text-align:center;'>
+            Lessee</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold;  min-width: 10%; max-width: 10%;width: 10%;text-align:center;'>
+            Lessor</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Store Name </td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Document Type</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Term of Contract</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            
+            Commencement Date </td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            
+            Termination Date </td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Responsible Person </td>
+            </tr>
+            
+            </table>"
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Width: =Parent.Width
+        Y: =CmpntHeader_5.Y+CmpntHeader_5.Height
+        ZIndex: =3
+
+    GalStoreOps As gallery.variableTemplateHeightGallery:
+        Height: =684
+        Items: |-
+            =If(
+                gblUserInfo.StoreOpsRole <> Blank(),
+                Filter(
+                    STORE_OPS_DB,
+                    StartsWith(
+                        Lessee,
+                        TxtLessee.Text
+                    ),
+                    StartsWith(
+                        StoreName,
+                        TxtStoreName.Text
+                    ),
+                    IsBlank(CmbxDocumentType.Selected.Title) || IsEmpty(CmbxDocumentType.Selected.Title) || DocumentType = CmbxDocumentType.Selected.Title,
+                    IsBlank(DpCDFrom.SelectedDate) || IsEmpty(DpCDFrom.SelectedDate) || IsBlank(DpCDTo.SelectedDate) || IsEmpty(DpCDTo.SelectedDate) || ((CommencementDate >= DpCDFrom.SelectedDate) && (CommencementDate <= DpCDTo.SelectedDate)),
+                    IsBlank(DpTDFrom.SelectedDate) || IsEmpty(DpTDFrom.SelectedDate) || IsBlank(DpTDTo.SelectedDate) || IsEmpty(DpTDTo.SelectedDate) || ((TerminationDate >= DpTDFrom.SelectedDate) && (TerminationDate <= DpTDTo.SelectedDate)),
+                    IsBlank(CmbxDocumentStat.Selected.Value) || IsEmpty(CmbxDocumentStat.Selected.Value) || DocumentStatus = CmbxDocumentStat.Selected.Value
+                )
+            )
+        Layout: =Layout.Vertical
+        TemplateFill: =If(ThisItem.IsSelected,RGBA(66, 209, 245,.5), RGBA(0, 0, 0, 0))
+        TemplatePadding: =0
+        TemplateSize: =50
+        Width: =Parent.Width
+        Y: =84
+        ZIndex: =4
+
+        HtmlText2 As htmlViewer:
+            AutoHeight: =true
+            Fill: =RGBA(0, 0, 0, 0)
+            HtmlText: |-
+                ="<table
+                style='table-layout: fixed;width: 100%; border: solid 1px black;border-collapse: collapse; background-color: RGBA(255, 255, 255, 0);'>
+                <tr>
+                <td
+                style='border: solid 1px black; padding: 5px ;  min-width: 10%; max-width: 10%;width: 10%;text-align:center;'>
+                " & ThisItem.Lessee & "</td>
+                <td
+                style='border: solid 1px black; padding: 5px ;  min-width: 10%; max-width: 10%;width: 10%;text-align:center;'>
+                " & ThisItem.Lessor & "</td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                " & ThisItem.StoreName & " </td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                " & ThisItem.DocumentType & "</td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                " & ThisItem.TermOfContract & "</td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                " & ThisItem.CommencementDate & " </td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                " & ThisItem.TerminationDate & " </td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                " & Substitute(
+                    ThisItem.ResponsiblePerson,
+                    "|",
+                    "<br>"
+                ) & " </td>
+                </tr>
+                </table>"
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Width: =Parent.Width
+            ZIndex: =1
+
+    GrpNav_StorOps As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =14
+
+        BtnNew_StorOps As button:
+            Align: =Align.Right
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.StoreOpsRole = gblConstRole.UPLOADER || gblUserInfo.StoreOpsRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            FocusedBorderThickness: =2
+            Height: =27
+            HoverBorderColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =Color.Black
+            OnSelect: |-
+                =Set(
+                    gblStoreOpsDB,
+                    Blank()
+                );
+                NewForm(FrmStoreOps);
+                Navigate(
+                    ScrnStoreOpsForm,
+                    ScreenTransition.Fade
+                )
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =20
+            PaddingTop: =0
+            PressedBorderColor: =RGBA(255, 255, 255, 1)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =Color.Black
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Size: =10
+            Text: ="NEW"
+            Width: =92
+            X: =BtnArchive_StorOps.X+BtnArchive_StorOps.Width + 10 
+            Y: =11
+            ZIndex: =2
+
+        BtnEdit_StoreOps As button:
+            Align: =Align.Right
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.StoreOpsRole = gblConstRole.UPLOADER || gblUserInfo.StoreOpsRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            FocusedBorderThickness: =2
+            Height: =27
+            HoverFill: =Color.Black
+            OnSelect: |-
+                =Set(
+                    gblStoreOpsDB,
+                    GalStoreOps.Selected
+                );
+                EditForm(FrmStoreOps);
+                Navigate(
+                    ScrnStoreOpsForm,
+                    ScreenTransition.Fade
+                )
+            PaddingRight: =20
+            PressedBorderColor: =ColorFade(Self.BorderColor, 20%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =Color.Black
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Size: =10
+            Text: ="EDIT"
+            Width: =92
+            X: =BtnViewDoc_StoreOps.X+BtnViewDoc_StoreOps.Width + 10 
+            Y: =11
+            ZIndex: =5
+
+        BtnViewDoc_StoreOps As button:
+            Align: =Align.Right
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =Color.Black
+            FocusedBorderThickness: =2
+            Height: =27
+            HoverFill: =Color.Black
+            OnSelect: =Launch(Concatenate(Last(GalStoreOps.Selected.Attachments).AbsoluteUri, "?web=1"))
+            PaddingBottom: =7
+            PaddingRight: =20
+            PressedBorderColor: =ColorFade(Self.BorderColor, 20%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =Color.Black
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Size: =10
+            Text: ="VIEW"
+            Width: =92
+            X: =Parent.Width * 0.6
+            Y: =11
+            ZIndex: =6
+
+        BtnArchive_StorOps As button:
+            Align: =Align.Right
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.StoreOpsRole = gblConstRole.UPLOADER || gblUserInfo.StoreOpsRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            FocusedBorderThickness: =2
+            Height: =27
+            HoverBorderColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =Color.Black
+            OnSelect: |-
+                =UpdateContext({lclShowConfirm:true})
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =20
+            PaddingTop: =0
+            PressedBorderColor: =RGBA(255, 255, 255, 1)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =Color.Black
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Size: =10
+            Text: ="ARCHIVE"
+            Width: =110
+            X: =BtnEdit_StoreOps.X+BtnEdit_StoreOps.Width+ 10
+            Y: =11
+            ZIndex: =7
+
+        IcnArchive_StorOps As icon.Document:
+            Color: =Color.White
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.StoreOpsRole = gblConstRole.UPLOADER || gblUserInfo.StoreOpsRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            Fill: =Color.Transparent
+            Height: =27
+            Icon: =Icon.Folder
+            OnSelect: =Select(BtnArchive_StorOps)
+            Width: =16
+            X: =BtnArchive_StorOps.X + 10
+            Y: =11
+            ZIndex: =8
+
+        IcnEdit_StorOps As icon.Edit:
+            Color: =RGBA(255, 255, 255, 1)
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.StoreOpsRole = gblConstRole.UPLOADER || gblUserInfo.StoreOpsRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            Height: =27
+            Icon: =Icon.Edit
+            OnSelect: =Select(BtnEdit_StoreOps)
+            Width: =16
+            X: =BtnEdit_StoreOps.X+10
+            Y: =11
+            ZIndex: =9
+
+        IcnNew_StorOps As icon.Add:
+            Color: =Color.White
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.StoreOpsRole = gblConstRole.UPLOADER || gblUserInfo.StoreOpsRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            Height: =27
+            Icon: =Icon.Add
+            OnSelect: =Select(BtnNew_StorOps)
+            Width: =16
+            X: =BtnNew_StorOps.X + 10
+            Y: =11
+            ZIndex: =10
+
+        IcnView_StorOps As icon.Document:
+            Color: =Color.White
+            Fill: =Color.Transparent
+            Height: =27
+            Icon: =Icon.Document
+            OnSelect: =Select(BtnViewDoc_StoreOps)
+            Width: =16
+            X: =BtnViewDoc_StoreOps.X + 10
+            Y: =11
+            ZIndex: =11
+
+        IcnMenu_StorOps As icon.Add:
+            Color: =Color.White
+            Height: =27
+            HoverColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Icon: =Icon.FilterFlat
+            OnSelect: |-
+                =UpdateContext({lclShowFilter: !lclShowFilter})
+            PressedColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Width: =30
+            X: =BtnNew_StorOps.X +BtnNew_StorOps.Width + 20
+            Y: =11
+            ZIndex: =12
+
+    GrpArchive_StoreOps As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =18
+
+        Rectangle5 As rectangle:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            Fill: =RGBA(230, 230, 230, 0.2)
+            Height: =Parent.Height
+            Visible: =lclShowConfirm
+            Width: =Parent.Width
+            ZIndex: =13
+
+        CmpntHTMBG_1 As CmpntHTMBG:
+            Height: =210
+            Visible: =lclShowConfirm
+            Width: =522
+            X: =(Parent.Width * 0.5) - (Self.Width*0.5)
+            Y: =(Parent.Height * 0.5) - (Self.Height*0.5)
+            ZIndex: =14
+
+        HtmlDialog As htmlViewer:
+            AutoHeight: =true
+            Font: =Font.Arial
+            Height: =0
+            HtmlText: ="<p>Are you sure you want to Archive <b>" & GalStoreOps.Selected.StoreName & " </b>? </p>"
+            PaddingBottom: =0
+            PaddingTop: =0
+            Size: =13
+            Visible: =lclShowConfirm
+            Width: =456
+            X: =(Parent.Width * 0.5) - (Self.Width*0.5)
+            Y: =CmpntHTMBG_1.Y+20
+            ZIndex: =15
+
+        BtnV2Cancel_1 As button:
+            BorderColor: =gblPButtonReject.BorderColor
+            BorderStyle: =gblPButtonReject.BorderStyle
+            BorderThickness: =gblPButtonReject.BorderThickness
+            Color: =gblPButtonReject.Color
+            Fill: =gblPButtonReject.Fill
+            FocusedBorderColor: =gblPButtonReject.FocusedBorderColor
+            FocusedBorderThickness: =gblPButtonReject.FocusedBorderThickness
+            Font: =gblPButtonReject.Font
+            FontWeight: =gblPButtonReject.FontWeight
+            Height: =gblPButtonReject.Height
+            HoverBorderColor: =gblPButtonReject.HoverBorderColor
+            HoverColor: =gblPButtonReject.HoverColor
+            HoverFill: =gblPButtonReject.HoverFill
+            OnSelect: |-
+                =UpdateContext({lclShowConfirm: false})
+            PressedBorderColor: =gblPButtonReject.PressedBorderColor
+            PressedColor: =gblPButtonReject.PressedColor
+            PressedFill: =gblPButtonReject.PressedFill
+            RadiusBottomLeft: =gblPButtonReject.RadiusBottomLeft
+            RadiusBottomRight: =gblPButtonReject.RadiusBottomRight
+            RadiusTopLeft: =gblPButtonReject.RadiusTopLeft
+            RadiusTopRight: =gblPButtonReject.RadiusTopRight
+            Size: =gblPButtonReject.Size
+            Text: ="Cancel"
+            Visible: =lclShowConfirm
+            Width: =gblPButtonReject.Width
+            X: =BtnV2Yes.X+BtnV2Yes.Width+10
+            Y: |
+                =(CmpntHTMBG_1.Y+CmpntHTMBG_1.Height) - Self.Height - 50
+            ZIndex: =16
+
+        BtnV2Yes As button:
+            BorderColor: =gblPButtonApprove.BorderColor
+            BorderStyle: =gblPButtonApprove.BorderStyle
+            BorderThickness: =gblPButtonApprove.BorderThickness
+            Color: =gblPButtonApprove.Color
+            Fill: =gblPButtonApprove.Fill
+            FocusedBorderColor: =gblPButtonApprove.FocusedBorderColor
+            FocusedBorderThickness: =gblPButtonApprove.FocusedBorderThickness
+            Font: =gblPButtonApprove.Font
+            FontWeight: =gblPButtonApprove.FontWeight
+            Height: =gblPButtonApprove.Height
+            HoverBorderColor: =gblPButtonApprove.HoverBorderColor
+            HoverColor: =gblPButtonApprove.HoverColor
+            HoverFill: =gblPButtonApprove.HoverFill
+            OnSelect: |-
+                =Patch(
+                    STORE_OPS_DB,
+                    GalStoreOps.Selected,
+                    {DocumentStatus: "Archived"}
+                );
+                UpdateContext({lclShowConfirm: false})
+            PressedBorderColor: =gblPButtonApprove.PressedBorderColor
+            PressedColor: =gblPButtonApprove.PressedColor
+            PressedFill: =gblPButtonApprove.PressedFill
+            RadiusBottomLeft: =gblPButtonApprove.RadiusBottomLeft
+            RadiusBottomRight: =gblPButtonApprove.RadiusBottomRight
+            RadiusTopLeft: =gblPButtonApprove.RadiusTopLeft
+            RadiusTopRight: =gblPButtonApprove.RadiusTopRight
+            Size: =gblPButtonReject.Size
+            Text: ="Yes"
+            Visible: =lclShowConfirm
+            Width: =gblPButtonApprove.Width
+            X: =HtmlDialog.X+HtmlDialog.Width*0.5-Self.Width*1
+            Y: |
+                =(CmpntHTMBG_1.Y+CmpntHTMBG_1.Height) - Self.Height - 50
+            ZIndex: =17
+
+    GrpFilter As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =37
+
+        CmpntHtmlBackGround_1 As CmpntHtmlBackGround:
+            Height: =Parent.Height-CmpntHeader_1.Height
+            Visible: =lclShowFilter
+            Width: =Parent.Width*0.42
+            X: =Parent.Width-Self.Width+10
+            Y: =CmpntHeader_5.X+CmpntHeader_5.Height-5
+            ZIndex: =18
+
+        TxtLessee As text:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            Default: =""
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HintText: ="Search "
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =328
+            X: =LblLessee.X+LblLessee.Width
+            Y: =84
+            ZIndex: =19
+
+        LblLessee As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Lessee"
+            Visible: =lclShowFilter
+            Width: =165
+            X: =CmpntHtmlBackGround_1.X + 40
+            Y: =84
+            ZIndex: =20
+
+        TxtStoreName As text:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            Default: =""
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HintText: ="Search "
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =328
+            X: =TxtLessee.X
+            Y: =TxtLessee.Y+TxtLessee.Height  + 10 
+            ZIndex: =23
+
+        LblStoreName As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Store Name"
+            Visible: =lclShowFilter
+            Width: =LblLessee.Width
+            X: =LblLessee.X
+            Y: =TxtLessee.Y+TxtLessee.Height  + 10 
+            ZIndex: =24
+
+        LblDocumentType As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Document Type"
+            Visible: =lclShowFilter
+            Width: =LblLessee.Width
+            X: =LblLessee.X
+            Y: =LblStoreName.Y+LblStoreName.Height + 10
+            ZIndex: =25
+
+        CmbxDocumentType As combobox:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            ChevronBackground: =gblPInput.ChevronBackground
+            ChevronFill: =gblPInput.ChevronFill
+            ChevronHoverBackground: =gblPInput.ChevronHoverBackground
+            ChevronHoverFill: =gblPInput.ChevronHoverFill
+            Color: =gblPInput.Color
+            DefaultSelectedItems: =
+            DisplayFields: =["Title"]
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="Document Category"
+            IsSearchable: =false
+            Items: =Filter(dd_DocumentType, StoreOps_SE = true)
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            SearchFields: =["Title"]
+            SearchItems: =[]
+            SelectionTagColor: =gblPInput.SelectionTagColor
+            SelectionTagFill: =gblPInput.SelectionTagFill
+            SelectMultiple: =false
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            X: =TxtLessee.X
+            Y: =LblStoreName.Y+LblStoreName.Height + 10
+            ZIndex: =26
+
+        LblCommenceDate As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =FontWeight.Bold
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Commencement Date"
+            Visible: =lclShowFilter
+            Width: =LblLessee.Width
+            X: =LblLessee.X
+            Y: =LblDocumentType.Y + LblDocumentType.Height+10
+            ZIndex: =27
+
+        DpCDFrom As datepicker:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            DefaultDate: =
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =26
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="From"
+            IsEditable: =true
+            PaddingTop: =5
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedFill: =gblPInput.PressedFill
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =TxtLessee.Width * 0.45
+            X: =TxtLessee.X
+            Y: =LblDocumentType.Y + LblDocumentType.Height+10
+            ZIndex: =28
+
+        DpCDTo As datepicker:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            DefaultDate: =
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="To"
+            IsEditable: =true
+            PaddingTop: =5
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedFill: =gblPInput.PressedFill
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =TxtLessee.Width * 0.45
+            X: =DpCDFrom.X+DpCDFrom.Width+30
+            Y: =LblDocumentType.Y + LblDocumentType.Height+10
+            ZIndex: =29
+
+        LblTerrminationDate As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =FontWeight.Bold
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Termination Date"
+            Visible: =lclShowFilter
+            Width: =LblLessee.Width
+            X: =LblLessee.X
+            Y: =LblCommenceDate.Y + LblCommenceDate.Height+10
+            ZIndex: =30
+
+        DpTDFrom As datepicker:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            DefaultDate: =
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =26
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="From"
+            IsEditable: =true
+            PaddingTop: =5
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedFill: =gblPInput.PressedFill
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =TxtLessee.Width * 0.45
+            X: =TxtLessee.X
+            Y: =LblCommenceDate.Y + LblCommenceDate.Height+10
+            ZIndex: =31
+
+        DpTDTo As datepicker:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            DefaultDate: =
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="To"
+            IsEditable: =true
+            PaddingTop: =5
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedFill: =gblPInput.PressedFill
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =TxtLessee.Width * 0.45
+            X: =DpCDTo.X
+            Y: =LblCommenceDate.Y + LblCommenceDate.Height+10
+            ZIndex: =32
+
+        IcnDownload_StorOps As icon.Add:
+            Color: =Color.White
+            Height: =30
+            HoverColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Icon: =Icon.Download
+            OnSelect: =
+            PressedColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Width: =35
+            X: =IcnMenu_StorOps.X+IcnMenu_StorOps.Width + 10
+            Y: =11
+            ZIndex: =33
+
+        excelexport1 As excelexport:
+            BackgroundColor: ="transparent"
+            ButtonHeight: ="45"
+            ButtonText: =""
+            dataToExport: |-
+                =Substitute(
+                    Concatenate(
+                        "[",
+                        Concat(
+                            GalStoreOps.AllItems,
+                            "{" 
+                            & Char(34) & "Lessee" & Char(34) & ":" & Char(34) & Lessee & Char(34) & "," 
+                            & Char(34) & "Lessor" & Char(34) & ":" & Char(34) & Lessor & Char(34) & "," 
+                            & Char(34) & "Store Name" & Char(34) & ":" & Char(34) & StoreName & Char(34) & "," 
+                            & Char(34) & "Document Type" & Char(34) & ":" & Char(34) & DocumentType & Char(34) & "," 
+                            & Char(34) & "Term of Contract" & Char(34) & ":" & Char(34) & TermOfContract & Char(34) & "," 
+                            & Char(34) & "Commencement Date" & Char(34) & ":" & Char(34) & CommencementDate & Char(34) & "," 
+                            & Char(34) & "Termination Date" & Char(34) & ":" & Char(34) & TerminationDate & Char(34) & "," 
+                            & Char(34) & "Responsible" & Char(34) & ":" & Char(34) & ResponsiblePerson & Char(34) & "," 
+                            & Char(34) & "People to notify" & Char(34) & ":" & Char(34) & PeopleToNotify & Char(34) & "," 
+                            & Char(34) & "Share To" & Char(34) & ":" & Char(34) & ShareTo & Char(34) & "," 
+                            & Char(34) & "Document Status" & Char(34) & ":" & Char(34) & DocumentStatus & Char(34)  
+                            & "},"
+                        ),
+                        "]"
+                    ),
+                    ",]",
+                    "]"
+                )
+            DisplayMode: =DisplayMode.Edit
+            FileName: ="Store Operations - store Expansion"
+            Height: =50
+            TextColor: ="transparent"
+            Tooltip: ="Export To Excel "
+            Width: =35
+            X: =IcnDownload_StorOps.X
+            Y: =0
+            ZIndex: =34
+
+        LblDocumentStatus As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Document Status"
+            Visible: =lclShowFilter
+            Width: =LblLessee.Width
+            X: =LblLessee.X
+            Y: =LblTerrminationDate.Y+LblTerrminationDate.Height + 10
+            ZIndex: =35
+
+        CmbxDocumentStat As combobox:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            ChevronBackground: =gblPInput.ChevronBackground
+            ChevronFill: =gblPInput.ChevronFill
+            ChevronHoverBackground: =gblPInput.ChevronHoverBackground
+            ChevronHoverFill: =gblPInput.ChevronHoverFill
+            Color: =gblPInput.Color
+            DefaultSelectedItems: |-
+                =Table({Value: "Active"})
+            DisplayFields: =["Value"]
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="Document Category"
+            IsSearchable: =false
+            Items: =["Active", "Archived"]
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            SearchFields: =["Value"]
+            SearchItems: =[]
+            SelectionTagColor: =gblPInput.SelectionTagColor
+            SelectionTagFill: =gblPInput.SelectionTagFill
+            SelectMultiple: =false
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            X: =CmbxDocumentType.X
+            Y: =LblTerrminationDate.Y+LblTerrminationDate.Height + 10
+            ZIndex: =36
+

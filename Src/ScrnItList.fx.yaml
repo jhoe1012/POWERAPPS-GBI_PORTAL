@@ -1,0 +1,812 @@
+ScrnItList As screen:
+    Fill: =
+
+    CmpntHeader_10 As CmpntHeader:
+        HeaderText: ="IT Documents"
+        HomeNavigation: =ScrnLandingPage
+        Width: =Parent.Width
+
+    HtmlText1_2 As htmlViewer:
+        AutoHeight: =true
+        HtmlText: |-
+            ="<table
+            style='table-layout: fixed;width: 100%; border: solid 1px black;border-collapse: collapse; background-color: RGBA(255, 255, 255, 1);text-align:center; paddingtop: 0;'>
+            <tr>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Store Name</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Manufacturing Plant</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Document Type</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Term of Contract</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Commencement Date </td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Termination Date </td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Responsible Person </td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 10%;max-width: 10%;width: 10%;'>
+            Share to </td>
+            </tr>
+            </table>"
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =9
+        Width: =Parent.Width
+        Y: =49
+        ZIndex: =3
+
+    Galit As gallery.variableTemplateHeightGallery:
+        Height: =687
+        Items: |-
+            =SortByColumns(
+                Search(
+                    [@IT_DB],
+                    srchButtonIt.Text,
+                    "Customer",
+                    "ManufacturingPlant",
+                    "DocumentType",
+                    "TermOfContract",
+                    "ResponsiblePerson"
+                ),
+                "Customer",
+                "ManufacturingPlant",
+                "DocumentType",
+                "TermOfContract",
+                "ResponsiblePerson"
+            )
+            //IT_DB
+        Layout: =Layout.Vertical
+        OnSelect: =
+        TemplateFill: =If(ThisItem.IsSelected,RGBA(66, 209, 245,.5), RGBA(0, 0, 0, 0))
+        TemplatePadding: =0
+        TemplateSize: =37
+        Width: =Parent.Width
+        Y: =80
+        ZIndex: =4
+
+        HtmlText2_2 As htmlViewer:
+            AutoHeight: =true
+            Fill: =Color.Transparent
+            Height: =37
+            HtmlText: |-
+                ="<table
+                style='table-layout: fixed;width: 100%; border: solid 1px black;border-collapse: collapse; background-color: RGBA(255, 255, 255, 0);text-align:center; paddingtop: 0;'>
+                <tr>
+                <td
+                style='border: solid 1px black; padding: 5px ;  min-width: 10%; max-width: 10%;width: 10%;'>
+                "& ThisItem.Customer&"</td>
+                <td
+                style='border: solid 1px black; padding: 5px ;  min-width: 10%; max-width: 10%;width: 10%;'>
+                "& ThisItem.ManufacturingPlant &"</td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                "& ThisItem.DocumentType &" </td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                "& ThisItem.TermOfContract &"</td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                "& ThisItem.CommencementDate &"</td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                "& ThisItem.TerminationDate &" </td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                "& Concat(ForAll(Split(ThisItem.ResponsiblePerson, "|"), {Result: ThisRecord.Value}),  Result , "<br>") &" </td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 10%;max-width: 10%;width: 10%;'>
+                "& ThisItem.ShareTo &" </td>
+                </tr>
+                </table>"
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =8
+            Width: =Parent.Width
+            ZIndex: =1
+
+    c_1 As groupContainer:
+        Height: =32
+        Width: =508
+        X: =857
+        Y: =12
+        ZIndex: =10
+
+        Group4_1 As group:
+            Height: =5
+            Width: =5
+            X: =60
+            Y: =60
+            ZIndex: =7
+
+            Button2_2 As button:
+                Align: =Align.Right
+                BorderColor: =Color.White
+                BorderThickness: =0
+                DisplayMode: |-
+                    =If(
+                        gblUserInfo.ITRole = gblConstRole.UPLOADER || gblUserInfo.ITRole = gblConstRole.ADMIN,
+                        DisplayMode.Edit,
+                        DisplayMode.Disabled
+                    )
+                Height: =27
+                HoverFill: =Color.Black
+                OnSelect: |-
+                    =Set(
+                        gblIt,
+                        Blank()
+                    );
+                    NewForm(FrmIt);
+                    Navigate(
+                        ScrnItForm,
+                        ScreenTransition.Fade
+                    );
+                PaddingRight: =20
+                PressedBorderColor: =ColorFade(Self.BorderColor, 20%)
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =Color.Black
+                RadiusBottomLeft: =5
+                RadiusBottomRight: =5
+                RadiusTopLeft: =5
+                RadiusTopRight: =5
+                Size: =10
+                Text: ="NEW"
+                Width: =92
+                X: =198
+                ZIndex: =1
+
+            Button2_6 As button:
+                Align: =Align.Right
+                BorderColor: =Color.White
+                BorderThickness: =0
+                DisplayMode: |-
+                    =If(
+                        gblUserInfo.ITRole = gblConstRole.UPLOADER || gblUserInfo.ITRole = gblConstRole.ADMIN,
+                        DisplayMode.Edit,
+                        DisplayMode.Disabled
+                    )
+                FocusedBorderThickness: =2
+                Height: =27
+                HoverFill: =Color.Black
+                OnSelect: |-
+                    =Set(
+                        gblIt,
+                        Galit.Selected
+                    );
+                    EditForm(FrmIt);
+                    Navigate(
+                        ScrnItForm,
+                        ScreenTransition.Fade
+                    );
+                PaddingRight: =20
+                PressedBorderColor: =ColorFade(Self.BorderColor, 20%)
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =Color.Black
+                RadiusBottomLeft: =5
+                RadiusBottomRight: =5
+                RadiusTopLeft: =5
+                RadiusTopRight: =5
+                Size: =10
+                Text: ="EDIT"
+                Width: =92
+                X: =99
+                ZIndex: =2
+
+            Button2_5 As button:
+                Align: =Align.Right
+                BorderColor: =Color.White
+                BorderThickness: =0
+                DisabledBorderColor: =RGBA(255, 255, 255, 1)
+                DisabledColor: =RGBA(255, 255, 255, 1)
+                DisabledFill: =RGBA(0, 0, 0, 1)
+                FocusedBorderThickness: =2
+                Height: =27
+                HoverFill: =Color.Black
+                OnSelect: |-
+                    =Launch(
+                        Concatenate(
+                            Last(Galit.Selected.Attachments).AbsoluteUri,
+                            "?web=1"
+                        )
+                    )
+                PaddingRight: =20
+                PressedBorderColor: =ColorFade(Self.BorderColor, 20%)
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =Color.Black
+                RadiusBottomLeft: =5
+                RadiusBottomRight: =5
+                RadiusTopLeft: =5
+                RadiusTopRight: =5
+                Size: =10
+                Text: ="VIEW"
+                Width: =92
+                ZIndex: =3
+
+            Icon6_1 As icon.Add:
+                Color: =Color.White
+                DisplayMode: |-
+                    =If(
+                        gblUserInfo.MarketingRole = gblConstRole.UPLOADER || gblUserInfo.MarketingRole = gblConstRole.ADMIN,
+                        DisplayMode.Edit,
+                        DisplayMode.Disabled
+                    )
+                Fill: =Color.Transparent
+                Height: =30
+                Icon: =Icon.Add
+                OnSelect: |-
+                    =Set(
+                        gblIt,
+                        Blank()
+                    );
+                    NewForm(FrmIt);
+                    Navigate(
+                        ScrnItForm,
+                        ScreenTransition.Fade
+                    );
+                Width: =16
+                X: =209
+                ZIndex: =4
+
+            Icon1_2 As icon.Edit:
+                Color: =Color.White
+                DisplayMode: |-
+                    =If(
+                        gblUserInfo.MarketingRole = gblConstRole.UPLOADER || gblUserInfo.MarketingRole = gblConstRole.ADMIN,
+                        DisplayMode.Edit,
+                        DisplayMode.Disabled
+                    )
+                Height: =30
+                Icon: =Icon.Edit
+                OnSelect: |-
+                    =Set(
+                        gblIt,
+                        Galit.Selected
+                    );
+                    EditForm(FrmIt);
+                    Navigate(
+                        ScrnItForm,
+                        ScreenTransition.Fade
+                    );
+                Width: =16
+                X: =113
+                ZIndex: =5
+
+            Icon2_2 As icon.Document:
+                Color: =Color.White
+                Height: =30
+                Icon: =Icon.Document
+                OnSelect: |-
+                    =Launch(
+                        Concatenate(
+                            Last(Galit.Selected.Attachments).AbsoluteUri,
+                            "?web=1"
+                        )
+                    )
+                Width: =16
+                X: =7
+                ZIndex: =6
+
+        BtnArchive_MarketingList_1 As button:
+            Align: =Align.Right
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.ITRole = gblConstRole.UPLOADER || gblUserInfo.ITRole  = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            FocusedBorderThickness: =2
+            Height: =27
+            HoverBorderColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =Color.Black
+            OnSelect: |-
+                =UpdateContext({lclShowConfirm:true})
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =20
+            PaddingTop: =0
+            PressedBorderColor: =RGBA(255, 255, 255, 1)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =Color.Black
+            Size: =10
+            Text: ="ARCHIVE"
+            Width: =110
+            X: =302
+            ZIndex: =8
+
+        IcnDownload_HrList_4 As icon.Add:
+            Color: =Color.White
+            Height: =27
+            HoverColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Icon: =Icon.Download
+            PressedColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Width: =30
+            X: =478
+            Y: =5
+            ZIndex: =9
+
+        excelexport_HrList_3 As excelexport:
+            BackgroundColor: ="transparent"
+            ButtonHeight: ="45"
+            ButtonText: =""
+            dataToExport: |-
+                =Substitute(
+                    Concatenate(
+                        "[",
+                        Concat(
+                            Galit.AllItems,
+                            "{" 
+                            & Char(34) & "Store Name" & Char(34) & ":" & Char(34) & Customer & Char(34) & "," 
+                            & Char(34) & "Manufacturing Plant" & Char(34) & ":" & Char(34) & ManufacturingPlant & Char(34) & "," 
+                            & Char(34) & "Document Type" & Char(34) & ":" & Char(34) & DocumentType & Char(34) & "," 
+                            & Char(34) & "Term of Contract" & Char(34) & ":" & Char(34) & TermOfContract & Char(34) & "," 
+                            & Char(34) & "Commencement Date" & Char(34) & ":" & Char(34) & CommencementDate & Char(34) & "," 
+                            & Char(34) & "Termination Date" & Char(34) & ":" & Char(34) & TerminationDate & Char(34) & "," 
+                            & Char(34) & "Responsible" & Char(34) & ":" & Char(34) & ResponsiblePerson & Char(34) & "," 
+                            & Char(34) & "People to notify" & Char(34) & ":" & Char(34) & PersonToNotify & Char(34) & "," 
+                            & Char(34) & "Share To" & Char(34) & ":" & Char(34) & ShareTo & Char(34) & "," 
+                            & Char(34) & "Document Status" & Char(34) & ":" & Char(34) & DocumentStatus & Char(34)  
+                            & "},"
+                        ),
+                        "]"
+                    ),
+                    ",]",
+                    "]"
+                )
+            DisplayMode: =DisplayMode.Edit
+            FileName: ="HR"
+            Height: =32
+            TextColor: ="transparent"
+            Tooltip: ="Export To Excel "
+            Width: =35
+            X: =473
+            Y: =0
+            ZIndex: =10
+
+        IcnMenu_StorOps_3 As icon.Add:
+            Color: =Color.White
+            Height: =27
+            HoverColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Icon: =Icon.FilterFlat
+            OnSelect: |-
+                =UpdateContext({lclShowFilter: !lclShowFilter})
+            PressedColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Width: =21
+            X: =434
+            ZIndex: =11
+
+    srchButtonIt As text:
+        Default: =""
+        Height: =26
+        HintText: ="Search"
+        Size: =11
+        X: =471
+        Y: =12
+        ZIndex: =11
+
+    GrpArchive_IT As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =17
+
+        Rectangle5_6 As rectangle:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            Fill: =RGBA(230, 230, 230, 0.2)
+            Height: =Parent.Height
+            Visible: =lclShowConfirm
+            Width: =Parent.Width
+            ZIndex: =12
+
+        CmpntHTMBG_7 As CmpntHTMBG:
+            Height: =210
+            Visible: =lclShowConfirm
+            Width: =522
+            X: =(Parent.Width * 0.5) - (Self.Width*0.5)
+            Y: =(Parent.Height * 0.5) - (Self.Height*0.5)
+            ZIndex: =13
+
+        HtmlDialog_6 As htmlViewer:
+            AutoHeight: =true
+            Font: =Font.Arial
+            Height: =0
+            HtmlText: ="<p>Are you sure you want to Archive <b>" & Galit.Selected.Customer & " </b>? </p>"
+            PaddingBottom: =0
+            PaddingTop: =0
+            Size: =13
+            Visible: =lclShowConfirm
+            Width: =456
+            X: =(Parent.Width * 0.5) - (Self.Width*0.5)
+            Y: =CmpntHTMBG_7.Y+20
+            ZIndex: =14
+
+        BtnV2Cancel_7 As button:
+            BorderColor: =gblPButtonReject.BorderColor
+            BorderStyle: =gblPButtonReject.BorderStyle
+            BorderThickness: =gblPButtonReject.BorderThickness
+            Color: =gblPButtonReject.Color
+            Fill: =gblPButtonReject.Fill
+            FocusedBorderColor: =gblPButtonReject.FocusedBorderColor
+            FocusedBorderThickness: =gblPButtonReject.FocusedBorderThickness
+            Font: =gblPButtonReject.Font
+            FontWeight: =gblPButtonReject.FontWeight
+            Height: =gblPButtonReject.Height
+            HoverBorderColor: =gblPButtonReject.HoverBorderColor
+            HoverColor: =gblPButtonReject.HoverColor
+            HoverFill: =gblPButtonReject.HoverFill
+            OnSelect: |-
+                =UpdateContext({lclShowConfirm: false})
+            PressedBorderColor: =gblPButtonReject.PressedBorderColor
+            PressedColor: =gblPButtonReject.PressedColor
+            PressedFill: =gblPButtonReject.PressedFill
+            RadiusBottomLeft: =gblPButtonReject.RadiusBottomLeft
+            RadiusBottomRight: =gblPButtonReject.RadiusBottomRight
+            RadiusTopLeft: =gblPButtonReject.RadiusTopLeft
+            RadiusTopRight: =gblPButtonReject.RadiusTopRight
+            Size: =gblPButtonReject.Size
+            Text: ="Cancel"
+            Visible: =lclShowConfirm
+            Width: =gblPButtonReject.Width
+            X: =BtnV2Yes_6.X+BtnV2Yes_6.Width+10
+            Y: |
+                =(CmpntHTMBG_7.Y+CmpntHTMBG_7.Height) - Self.Height - 50
+            ZIndex: =15
+
+        BtnV2Yes_6 As button:
+            BorderColor: =gblPButtonApprove.BorderColor
+            BorderStyle: =gblPButtonApprove.BorderStyle
+            BorderThickness: =gblPButtonApprove.BorderThickness
+            Color: =gblPButtonApprove.Color
+            Fill: =gblPButtonApprove.Fill
+            FocusedBorderColor: =gblPButtonApprove.FocusedBorderColor
+            FocusedBorderThickness: =gblPButtonApprove.FocusedBorderThickness
+            Font: =gblPButtonApprove.Font
+            FontWeight: =gblPButtonApprove.FontWeight
+            Height: =gblPButtonApprove.Height
+            HoverBorderColor: =gblPButtonApprove.HoverBorderColor
+            HoverColor: =gblPButtonApprove.HoverColor
+            HoverFill: =gblPButtonApprove.HoverFill
+            OnSelect: |-
+                =Patch(
+                    IT_DB,
+                    Galit.Selected,
+                    {DocumentStatus: "Archived"}
+                );
+                UpdateContext({lclShowConfirm: false})
+            PressedBorderColor: =gblPButtonApprove.PressedBorderColor
+            PressedColor: =gblPButtonApprove.PressedColor
+            PressedFill: =gblPButtonApprove.PressedFill
+            RadiusBottomLeft: =gblPButtonApprove.RadiusBottomLeft
+            RadiusBottomRight: =gblPButtonApprove.RadiusBottomRight
+            RadiusTopLeft: =gblPButtonApprove.RadiusTopLeft
+            RadiusTopRight: =gblPButtonApprove.RadiusTopRight
+            Size: =gblPButtonReject.Size
+            Text: ="Yes"
+            Visible: =lclShowConfirm
+            Width: =gblPButtonApprove.Width
+            X: =HtmlDialog_6.X+HtmlDialog_6.Width*0.5-Self.Width*1
+            Y: |
+                =(CmpntHTMBG_7.Y+CmpntHTMBG_7.Height) - Self.Height - 50
+            ZIndex: =16
+
+    LblDocumentStatus_HrList_1 As label:
+        BorderColor: =gblPLabel.BorderColor
+        BorderStyle: =gblPLabel.BorderStyle
+        BorderThickness: =gblPLabel.BorderThickness
+        Color: =gblPLabel.Color
+        Fill: =gblPLabel.Fill
+        Font: =gblPLabel.Font
+        FontWeight: =gblPLabel.FontWeight
+        Height: =gblPLabel.Height-6
+        PaddingLeft: =15
+        Size: =gblPLabel.Size
+        Text: ="Document Status"
+        Visible: =lclShowFilter
+        Width: =LblCustomerVendor.Width
+        X: =LbliTStoreName.X
+        Y: =234
+        ZIndex: =28
+
+    GrpFilter_2 As group:
+        Height: =5
+        Width: =5
+        X: =792.28
+        Y: =-63
+        ZIndex: =28
+
+        CmpntHtmlBackGround_9 As CmpntHtmlBackGround:
+            Height: =Parent.Height-CmpntHeader_1.Height
+            Visible: =lclShowFilter
+            Width: =Parent.Width*0.42
+            X: =792
+            Y: =46
+            ZIndex: =17
+
+        TxtiTStoreName As text:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            Default: =""
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =25
+            HintText: ="Search "
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =328
+            X: =LbliTStoreName.X + LbliTStoreName.Width + 10
+            Y: =80
+            ZIndex: =18
+
+        LbliTStoreName As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =25
+            PaddingLeft: =15
+            Size: =gblPLabel.Size
+            Text: ="Store Name"
+            Visible: =lclShowFilter
+            Width: =172
+            X: =GrpFilter_2.X + 30
+            Y: =80
+            ZIndex: =19
+
+        LblDocumentType_5 As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =25
+            PaddingLeft: =15
+            Size: =gblPLabel.Size
+            Text: ="Document Type"
+            Visible: =lclShowFilter
+            Width: =169
+            X: =LbliTStoreName.X
+            Y: =122
+            ZIndex: =20
+
+        CmbxDocumentType_5 As combobox:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            ChevronBackground: =gblPInput.ChevronBackground
+            ChevronFill: =gblPInput.ChevronFill
+            ChevronHoverBackground: =gblPInput.ChevronHoverBackground
+            ChevronHoverFill: =gblPInput.ChevronHoverFill
+            Color: =gblPInput.Color
+            DefaultSelectedItems: =
+            DisplayFields: =["Title"]
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =25
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="Document Category"
+            IsSearchable: =false
+            Items: =Filter(dd_DocumentType, StoreOps_SE = true)
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            SearchFields: =["Title"]
+            SearchItems: =[]
+            SelectionTagColor: =gblPInput.SelectionTagColor
+            SelectionTagFill: =gblPInput.SelectionTagFill
+            SelectMultiple: =false
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            X: =TxtiTStoreName.X
+            Y: =120
+            ZIndex: =21
+
+        LblCommenceDate_4 As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =FontWeight.Bold
+            Height: =25
+            PaddingLeft: =15
+            Size: =gblPLabel.Size
+            Text: ="Commencement Date"
+            Visible: =lclShowFilter
+            Width: =176
+            X: =LbliTStoreName.X
+            Y: =156
+            ZIndex: =22
+
+        DpCDFrom_4 As datepicker:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            DefaultDate: =
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =25
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="From"
+            IsEditable: =true
+            PaddingTop: =5
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedFill: =gblPInput.PressedFill
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =156
+            X: =TxtiTStoreName.X
+            Y: =156
+            ZIndex: =23
+
+        DpCDTo_4 As datepicker:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            DefaultDate: =
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            Height: =25
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="To"
+            IsEditable: =true
+            PaddingTop: =5
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedFill: =gblPInput.PressedFill
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =156
+            X: =DpCDFrom_4.X + DpCDFrom_4.Width + 16
+            Y: =154
+            ZIndex: =24
+
+        LblTerrminationDate_4 As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =FontWeight.Bold
+            Height: =25
+            PaddingLeft: =15
+            Size: =gblPLabel.Size
+            Text: ="Termination Date"
+            Visible: =lclShowFilter
+            Width: =165
+            X: =LbliTStoreName.X
+            Y: =200
+            ZIndex: =25
+
+        DpTDFrom_4 As datepicker:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            DefaultDate: =
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =25
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="From"
+            IsEditable: =true
+            PaddingTop: =5
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedFill: =gblPInput.PressedFill
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: |
+                =156
+            X: =TxtiTStoreName.X
+            Y: =200
+            ZIndex: =26
+
+        DpTDTo_4 As datepicker:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            DefaultDate: =
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            Height: =25
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="To"
+            IsEditable: =true
+            PaddingTop: =5
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedFill: =gblPInput.PressedFill
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =156
+            X: =DpCDTo_4.X
+            Y: =199
+            ZIndex: =27
+
+    CmbxDocumentStatus_HrList_1 As combobox:
+        BorderColor: =gblPInput.BorderColor
+        BorderStyle: =gblPInput.BorderStyle
+        BorderThickness: =gblPInput.BorderThickness
+        ChevronBackground: =gblPInput.ChevronBackground
+        ChevronFill: =gblPInput.ChevronFill
+        ChevronHoverBackground: =gblPInput.ChevronHoverBackground
+        ChevronHoverFill: =gblPInput.ChevronHoverFill
+        Color: =gblPInput.Color
+        DefaultSelectedItems: =
+        DisplayFields: =["Value"]
+        Fill: =gblPInput.Fill
+        FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+        Font: =gblPInput.Font
+        FontWeight: =gblPInput.FontWeight
+        Height: =gblPInput.Height
+        HoverBorderColor: =gblPInput.HoverBorderColor
+        HoverColor: =gblPInput.HoverColor
+        HoverFill: =gblPInput.HoverFill
+        InputTextPlaceholder: ="Document Category"
+        IsSearchable: =false
+        Items: =["Active", "Archived"]
+        PressedBorderColor: =gblPInput.PressedBorderColor
+        PressedColor: =gblPInput.PressedColor
+        PressedFill: =gblPInput.PressedFill
+        SearchFields: =["Value"]
+        SearchItems: =[]
+        SelectionTagColor: =gblPInput.SelectionTagColor
+        SelectionTagFill: =gblPInput.SelectionTagFill
+        SelectMultiple: =false
+        Size: =gblPInput.Size
+        Visible: =lclShowFilter
+        X: =TxtiTStoreName.X
+        Y: =234
+        ZIndex: =29
+

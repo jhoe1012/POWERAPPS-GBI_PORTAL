@@ -1,0 +1,270 @@
+{
+  "05a22497-cdfd-4906-83be-f8e65861be3b": {
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://goldilocksbakeshopinc.sharepoint.com/sites/gbiportal": {
+        "dataSources": {
+          "dd_Legal_DocumentName": {
+            "tableName": "4ea293f2-1ecd-4c9c-8410-9c7a7eb37d0d"
+          },
+          "dd_NotificationTrigger": {
+            "tableName": "3ebd23dc-48f4-46f6-ac61-4c4b7faac0b0"
+          },
+          "dd_Store_ops_DocumentType": {
+            "tableName": "daaef8e9-ce29-4b0d-8a15-0c70c207e132"
+          },
+          "dd_Store_ops_Lessee": {
+            "tableName": "1cdb9146-6dc2-4875-9139-9cc9e9e8b3bd"
+          },
+          "dd_Store_ops_TermOfContract": {
+            "tableName": "3cbf56a3-fc70-48c4-8ae7-9a2194c83882"
+          },
+          "STORE_OPS_DB": {
+            "tableName": "a7ff66f4-cb61-4cb5-8372-5103812ebe9e"
+          },
+          "STOREOPS_FR_DB": {
+            "tableName": "0c30613d-4c2c-4037-a9e5-1df416b105bb"
+          },
+          "User": {
+            "tableName": "732651f2-0304-40cc-a823-77281b826e25"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "dd_Legal_DocumentName",
+      "dd_Store_ops_TermOfContract",
+      "dd_Store_ops_Lessee",
+      "dd_Store_ops_DocumentType",
+      "dd_NotificationTrigger",
+      "STORE_OPS_DB",
+      "User",
+      "STOREOPS_FR_DB"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "05a22497-cdfd-4906-83be-f8e65861be3b"
+  },
+  "81dd421d-bfe1-4df5-bbab-b1a1d21333fc": {
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "81dd421d-bfe1-4df5-bbab-b1a1d21333fc"
+  },
+  "8ecfb7aa-88f8-438b-851c-80e0ab2a4a12": {
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1627/1.0.1627.3238/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://goldilocksbakeshopinc.sharepoint.com/sites/gbiportal": {
+        "dataSources": {
+          "dd_Company": {
+            "tableName": "27dc9031-bf52-4d42-b9c4-8533fbe6ae74"
+          },
+          "dd_Company_1": {
+            "tableName": "27dc9031-bf52-4d42-b9c4-8533fbe6ae74"
+          },
+          "dd_DocumentType": {
+            "tableName": "87be365a-bceb-4297-a9ca-e7b6010495ae"
+          },
+          "dd_DocumentType_LogandPro": {
+            "tableName": "c904b0a4-dfd8-4bd3-b7ae-2f7941a7ae01"
+          },
+          "dd_Finance_CoBranchFolder": {
+            "tableName": "61965248-e20e-40b6-8b76-faa25d194b9f"
+          },
+          "dd_Finance_CoFolder": {
+            "tableName": "f6bf7d70-adc8-4b3e-9fab-c86118ccb082"
+          },
+          "dd_Finance_DocumentCategory": {
+            "tableName": "2a961bf3-0576-4736-93b9-7c07bc4564c5"
+          },
+          "dd_Finance_IssuingAgency": {
+            "tableName": "7215ee28-8c6e-4f27-a1f5-12e9a081d990"
+          },
+          "dd_Hr_ManufacturingPlant": {
+            "tableName": "2fe6d1e7-72a4-44ff-b6e6-314bb9f9c000"
+          },
+          "dd_Hr_NotificationTrigger": {
+            "tableName": "eded830f-03b0-47ec-985e-6533fe0fc296"
+          },
+          "dd_Hr_TermOfContract": {
+            "tableName": "172c9122-7886-4c5f-b7f9-2e6f4b8f453a"
+          },
+          "dd_IT_ManufacturingPlant": {
+            "tableName": "6ea57430-e02a-4117-aab1-1b4bbcd035ec"
+          },
+          "dd_IT_NotificationTrigger": {
+            "tableName": "5417214f-6aca-4564-979b-90720f4a4720"
+          },
+          "dd_IT_TermOfContract": {
+            "tableName": "d2498f6b-9d18-4a13-94af-0696c450c659"
+          },
+          "dd_LogandPro_DocumentType": {
+            "tableName": "c904b0a4-dfd8-4bd3-b7ae-2f7941a7ae01"
+          },
+          "dd_LogandPro_Manufacturing": {
+            "tableName": "3d58b0b3-e1f5-4299-b072-040af22388fe"
+          },
+          "dd_LogandPro_TermofContract": {
+            "tableName": "2a9082e8-49ef-4b46-aab0-3b3fc347ff78"
+          },
+          "dd_Manufacturing_LogandPro": {
+            "tableName": "3d58b0b3-e1f5-4299-b072-040af22388fe"
+          },
+          "dd_ManufacturingPlant": {
+            "tableName": "310f38bc-024a-45a7-93fa-c71e5954ef13"
+          },
+          "dd_Marketing_DocumentType": {
+            "tableName": "83ab9e42-bdcd-4808-8070-0bf6fbf217c0"
+          },
+          "dd_Marketing_MfgPlant": {
+            "tableName": "a1b1bf58-4f36-4390-ad77-0b6d10b3ddfa"
+          },
+          "dd_Marketing_NatureOfBusiness": {
+            "tableName": "83648436-34cf-4fd8-88c2-e2ad47b4e2bd"
+          },
+          "dd_Marketing_ServicingTeam": {
+            "tableName": "eef1fff7-cb32-4908-97df-5f3d0187f60d"
+          },
+          "dd_Marketing_TermOfContract": {
+            "tableName": "f9619998-7f3f-43ba-ad9a-5004c659cf6a"
+          },
+          "dd_Marketing_user": {
+            "tableName": "390d8698-5cd8-4aa4-b53b-896bb55e191a"
+          },
+          "dd_Marketing_VendorName": {
+            "tableName": "53aab20b-afa4-45f0-a0ec-630fbf639918"
+          },
+          "dd_Mfg_DocumentType": {
+            "tableName": "140aa991-3e9b-4127-9dc8-1011c516aa85"
+          },
+          "dd_Mfg_ManufacturingPlant": {
+            "tableName": "26f55c4a-4004-400a-9824-59f6fdadaafc"
+          },
+          "dd_Mfg_NotificationTrigger": {
+            "tableName": "75dd6462-ca4f-44d9-aa7c-62693fd72345"
+          },
+          "dd_TermOfContract": {
+            "tableName": "b315cf9e-4067-4ed9-8ed1-4446adcdfdd9"
+          },
+          "dd_TermofContract_LogandPro": {
+            "tableName": "2a9082e8-49ef-4b46-aab0-3b3fc347ff78"
+          },
+          "FINANCE_DB": {
+            "tableName": "0afc5f47-4491-4d1e-afbc-e2a843fd204e"
+          },
+          "HR_DB": {
+            "tableName": "7025002f-7dfa-4e7f-b1dd-34317e055ab4"
+          },
+          "IT_DB": {
+            "tableName": "b086da56-f286-40b4-b431-06b256ab46fa"
+          },
+          "LEGAL_DB": {
+            "tableName": "fa0b82d7-df81-4486-982d-65f9db554cc3"
+          },
+          "LOGISTICSANDPROCUREMENT_DB": {
+            "tableName": "ac8dafb8-2fd4-4eb5-973d-fc3701b95f3d"
+          },
+          "MANUFACTURING_DB": {
+            "tableName": "54cdae04-6ce6-4940-b6af-367b65525f5a"
+          },
+          "MARKETING_DB": {
+            "tableName": "0c5e550b-2062-4bef-a819-9e1a5f47102c"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "LEGAL_DB",
+      "STORE_OPS_DB",
+      "MARKETING_DB",
+      "dd_Marketing_MfgPlant",
+      "dd_Marketing_TermOfContract",
+      "LOGISTICSANDPROCUREMENT_DB",
+      "dd_Manufacturing_LogandPro",
+      "dd_DocumentType_LogandPro",
+      "dd_TermofContract_LogandPro",
+      "dd_LogandPro_DocumentType",
+      "dd_LogandPro_Manufacturing",
+      "dd_LogandPro_TermofContract",
+      "dd_Marketing_user",
+      "User",
+      "IT_DB",
+      "dd_IT_ManufacturingPlant",
+      "dd_IT_NotificationTrigger",
+      "dd_IT_TermOfContract",
+      "dd_Legal_DocumentName",
+      "dd_Store_ops_DocumentType",
+      "dd_Store_ops_TermOfContract",
+      "dd_Store_ops_Lessee",
+      "dd_NotificationTrigger",
+      "HR_DB",
+      "dd_Hr_ManufacturingPlant",
+      "dd_Hr_NotificationTrigger",
+      "dd_Hr_TermOfContract",
+      "dd_Company",
+      "MANUFACTURING_DB",
+      "dd_Mfg_DocumentType",
+      "dd_Mfg_ManufacturingPlant",
+      "dd_Mfg_NotificationTrigger",
+      "FINANCE_DB",
+      "dd_Finance_IssuingAgency",
+      "dd_Finance_DocumentCategory",
+      "dd_Finance_CoFolder",
+      "dd_Finance_CoBranchFolder",
+      "dd_Company_1",
+      "STOREOPS_FR_DB",
+      "dd_DocumentType",
+      "dd_TermOfContract",
+      "dd_ManufacturingPlant",
+      "dd_Marketing_VendorName",
+      "dd_Marketing_ServicingTeam",
+      "dd_Marketing_NatureOfBusiness",
+      "dd_Marketing_DocumentType"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "8ecfb7aa-88f8-438b-851c-80e0ab2a4a12"
+  },
+  "dd4ca866-4fc8-48bc-84c8-7d6e0c9b273b": {
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Outlook",
+      "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1626/1.0.1626.3238/office365/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Outlook"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "dd4ca866-4fc8-48bc-84c8-7d6e0c9b273b"
+  }
+}

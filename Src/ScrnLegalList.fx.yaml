@@ -1,0 +1,757 @@
+ScrnLegalList As screen:
+    Fill: =RGBA(0, 0, 0, 0)
+
+    CmpntHeader_2 As CmpntHeader:
+        HeaderText: ="Legal Documents"
+        HomeNavigation: =ScrnLandingPage
+        Width: =Parent.Width
+
+    HtmlText1_3 As htmlViewer:
+        AutoHeight: =true
+        HtmlText: |-
+            ="<table
+            style='table-layout: fixed;width: 100%; border: solid 1px black;border-collapse: collapse; background-color: RGBA(255, 255, 255, 1);'>
+            <tr>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold;  min-width: 25%; max-width: 25%;width: 25%;text-align:center;'>
+            Document Name</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold;  min-width: 25%; max-width: 25%;width: 25%;text-align:center;'>
+            Issuing Dept</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 25%;max-width: 25%;width: 25%;'>
+            Responsible Person</td>
+            <td
+            style='border: solid 1px black; padding: 5px ;font-weight: bold; min-width: 25%;max-width: 25%;width: 25%;'>
+            Shared To</td>
+            
+            </tr>
+            
+            </table>
+            "
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Width: =Parent.Width
+        Y: =CmpntHeader_2.Y+CmpntHeader_2.Height
+        ZIndex: =2
+
+    GalLegal As gallery.variableTemplateHeightGallery:
+        Height: =Parent.Height - (HtmlText1_3.Height + HtmlText1_3.Y)
+        Items: |
+            =//LEGAL_DB
+            /*SortByColumns(
+                Search(
+                    [@LEGAL_DB],
+                    srchButtonLegal.Text,
+                    "DocumentName",
+                    "IssuingDept",
+                    "ResponsiblePerson"
+                ),
+                "DocumentName",
+                "IssuingDept",
+                "ResponsiblePerson"
+            )*/
+            
+            If(
+                gblUserInfo.LegalRole <> Blank(),
+                Filter(
+                    LEGAL_DB,
+                    IsBlank(CmbxDocumentName.Selected.Title) || IsEmpty(CmbxDocumentName.Selected.Title) || DocumentName = CmbxDocumentName.Selected.Title,
+                    StartsWith(IssuingDept,TxtIssuingDept.Text),
+                    IsBlank(CmbxResponsiblePerson.Selected.Title) || IsEmpty(CmbxResponsiblePerson.Selected.Title) || ResponsiblePerson = CmbxResponsiblePerson.Selected.Title,
+                    IsBlank(CmbxLegalDocumentStatus.Selected.Value) || IsEmpty(CmbxLegalDocumentStatus.Selected.Value) || DocumentStatus = CmbxLegalDocumentStatus.Selected.Value
+                )
+            )
+        Layout: =Layout.Vertical
+        NavigationStep: =0
+        TemplateFill: =If(ThisItem.IsSelected,RGBA(66, 209, 245,.5), RGBA(0, 0, 0, 0))
+        TemplatePadding: =0
+        TemplateSize: =50
+        Width: =Parent.Width
+        Y: =80
+        ZIndex: =3
+
+        HtmlText2_3 As htmlViewer:
+            AutoHeight: =true
+            Fill: =RGBA(0, 0, 0, 0)
+            HtmlText: |-
+                ="<table
+                style='table-layout: fixed;width: 100%; border: solid 1px black;border-collapse: collapse; background-color: RGBA(255, 255, 255, 0);'>
+                <tr>
+                <td
+                style='border: solid 1px black; padding: 5px ;  min-width: 25%; max-width: 25%;width: 25%;text-align:center;'>
+                " & ThisItem.DocumentName & "</td>
+                <td
+                style='border: solid 1px black; padding: 5px ;  min-width: 25%; max-width: 25%;width: 25%;text-align:center;'>
+                " & ThisItem.IssuingDept & "</td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 25%;max-width: 25%;width: 25%;'>
+                " & Substitute(
+                    ThisItem.ResponsiblePerson,
+                    "|",
+                    ", "
+                ) & "</td>
+                <td
+                style='border: solid 1px black; padding: 5px ; min-width: 25%;max-width: 25%;width: 25%;'>
+                " & Substitute(
+                    ThisItem.ShareTo,
+                    "|",
+                    ", "
+                ) & "</td>
+                </tr>
+                </table>"
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Width: =Parent.Width
+            ZIndex: =1
+
+    GrpArchive_Legal As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =19
+
+        Rectangle5_9 As rectangle:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            Fill: =RGBA(230, 230, 230, 0.2)
+            Height: =Parent.Height
+            Visible: =lclShowConfirm
+            Width: =Parent.Width
+            ZIndex: =14
+
+        CmpntHTMBG_10 As CmpntHTMBG:
+            Height: =210
+            Visible: =lclShowConfirm
+            Width: =522
+            X: =(Parent.Width * 0.5) - (Self.Width*0.5)
+            Y: =(Parent.Height * 0.5) - (Self.Height*0.5)
+            ZIndex: =15
+
+        HtmlDialog_9 As htmlViewer:
+            AutoHeight: =true
+            Font: =Font.Arial
+            Height: =0
+            HtmlText: ="<p>Are you sure you want to Archive <b>" & GalLegal.Selected.DocumentName & " </b>? </p>"
+            PaddingBottom: =0
+            PaddingTop: =0
+            Size: =13
+            Visible: =lclShowConfirm
+            Width: =456
+            X: =(Parent.Width * 0.5) - (Self.Width*0.5)
+            Y: =CmpntHTMBG_10.Y+20
+            ZIndex: =16
+
+        BtnV2Cancel_10 As button:
+            BorderColor: =gblPButtonReject.BorderColor
+            BorderStyle: =gblPButtonReject.BorderStyle
+            BorderThickness: =gblPButtonReject.BorderThickness
+            Color: =gblPButtonReject.Color
+            Fill: =gblPButtonReject.Fill
+            FocusedBorderColor: =gblPButtonReject.FocusedBorderColor
+            FocusedBorderThickness: =gblPButtonReject.FocusedBorderThickness
+            Font: =gblPButtonReject.Font
+            FontWeight: =gblPButtonReject.FontWeight
+            Height: =gblPButtonReject.Height
+            HoverBorderColor: =gblPButtonReject.HoverBorderColor
+            HoverColor: =gblPButtonReject.HoverColor
+            HoverFill: =gblPButtonReject.HoverFill
+            OnSelect: |-
+                =UpdateContext({lclShowConfirm: false})
+            PressedBorderColor: =gblPButtonReject.PressedBorderColor
+            PressedColor: =gblPButtonReject.PressedColor
+            PressedFill: =gblPButtonReject.PressedFill
+            RadiusBottomLeft: =gblPButtonReject.RadiusBottomLeft
+            RadiusBottomRight: =gblPButtonReject.RadiusBottomRight
+            RadiusTopLeft: =gblPButtonReject.RadiusTopLeft
+            RadiusTopRight: =gblPButtonReject.RadiusTopRight
+            Size: =gblPButtonReject.Size
+            Text: ="Cancel"
+            Visible: =lclShowConfirm
+            Width: =gblPButtonReject.Width
+            X: =BtnV2Yes_9.X+BtnV2Yes_9.Width+10
+            Y: |
+                =(CmpntHTMBG_10.Y+CmpntHTMBG_10.Height) - Self.Height - 50
+            ZIndex: =17
+
+        BtnV2Yes_9 As button:
+            BorderColor: =gblPButtonApprove.BorderColor
+            BorderStyle: =gblPButtonApprove.BorderStyle
+            BorderThickness: =gblPButtonApprove.BorderThickness
+            Color: =gblPButtonApprove.Color
+            Fill: =gblPButtonApprove.Fill
+            FocusedBorderColor: =gblPButtonApprove.FocusedBorderColor
+            FocusedBorderThickness: =gblPButtonApprove.FocusedBorderThickness
+            Font: =gblPButtonApprove.Font
+            FontWeight: =gblPButtonApprove.FontWeight
+            Height: =gblPButtonApprove.Height
+            HoverBorderColor: =gblPButtonApprove.HoverBorderColor
+            HoverColor: =gblPButtonApprove.HoverColor
+            HoverFill: =gblPButtonApprove.HoverFill
+            OnSelect: |-
+                =Patch(
+                    LEGAL_DB,
+                    GalLegal.Selected,
+                    {DocumentStatus: "Archived"}
+                );
+                UpdateContext({lclShowConfirm: false})
+            PressedBorderColor: =gblPButtonApprove.PressedBorderColor
+            PressedColor: =gblPButtonApprove.PressedColor
+            PressedFill: =gblPButtonApprove.PressedFill
+            RadiusBottomLeft: =gblPButtonApprove.RadiusBottomLeft
+            RadiusBottomRight: =gblPButtonApprove.RadiusBottomRight
+            RadiusTopLeft: =gblPButtonApprove.RadiusTopLeft
+            RadiusTopRight: =gblPButtonApprove.RadiusTopRight
+            Size: =gblPButtonReject.Size
+            Text: ="Yes"
+            Visible: =lclShowConfirm
+            Width: =gblPButtonApprove.Width
+            X: =HtmlDialog_9.X+HtmlDialog_9.Width*0.5-Self.Width*1
+            Y: |
+                =(CmpntHTMBG_10.Y+CmpntHTMBG_10.Height) - Self.Height - 50
+            ZIndex: =18
+
+    Grp_LegalFilter As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =-21
+        ZIndex: =36
+
+        CmpntHtmlBackGround_4 As CmpntHtmlBackGround:
+            Height: =Parent.Height-CmpntHeader_1.Height
+            Visible: =lclShowFilter
+            Width: =Parent.Width*0.42
+            X: =764
+            Y: =CmpntHeader_5.X+CmpntHeader_5.Height-5
+            ZIndex: =19
+
+        TxtIssuingDept As text:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            Color: =gblPInput.Color
+            Default: ="Legal"
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HintText: ="Search "
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            Width: =328
+            X: =969
+            Y: =108
+            ZIndex: =20
+
+        LblIssuingDept As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Issuing Department"
+            Visible: =lclShowFilter
+            Width: =165
+            X: =804
+            Y: =108
+            ZIndex: =21
+
+        LblResponsiblePerson As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Responsible Person"
+            Visible: =lclShowFilter
+            Width: =LblIssuingDept.Width
+            X: =804
+            Y: =149
+            ZIndex: =22
+
+        CmbxResponsiblePerson As combobox:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            ChevronBackground: =gblPInput.ChevronBackground
+            ChevronFill: =gblPInput.ChevronFill
+            ChevronHoverBackground: =gblPInput.ChevronHoverBackground
+            ChevronHoverFill: =gblPInput.ChevronHoverFill
+            Color: =gblPInput.Color
+            DefaultSelectedItems: =
+            DisplayFields: =["Title"]
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="Document Category"
+            IsSearchable: =false
+            Items: =Filter(User, LegalRole=gblConstRole.ADMIN)
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            SearchFields: =["Title"]
+            SearchItems: =[]
+            SelectionTagColor: =gblPInput.SelectionTagColor
+            SelectionTagFill: =gblPInput.SelectionTagFill
+            SelectMultiple: =false
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            X: =969
+            Y: =149
+            ZIndex: =23
+
+        LblDocumentName As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Document Name"
+            Visible: =lclShowFilter
+            Width: =LblIssuingDept.Width
+            X: =804
+            Y: =65
+            ZIndex: =30
+
+        CmbxDocumentName As combobox:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            ChevronBackground: =gblPInput.ChevronBackground
+            ChevronFill: =gblPInput.ChevronFill
+            ChevronHoverBackground: =gblPInput.ChevronHoverBackground
+            ChevronHoverFill: =gblPInput.ChevronHoverFill
+            Color: =gblPInput.Color
+            DefaultSelectedItems: =
+            DisplayFields: =["Title"]
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="Document Category"
+            IsSearchable: =false
+            Items: =dd_Legal_DocumentName
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            SearchFields: =["Title"]
+            SearchItems: =[]
+            SelectionTagColor: =gblPInput.SelectionTagColor
+            SelectionTagFill: =gblPInput.SelectionTagFill
+            SelectMultiple: =false
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            X: =969
+            Y: =65
+            ZIndex: =31
+
+        LblLegalDocumentStatus As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Document Status"
+            Visible: =lclShowFilter
+            Width: =LblIssuingDept.Width
+            X: =LblIssuingDept.X
+            Y: =232
+            ZIndex: =32
+
+        CmbxLegalDocumentStatus As combobox:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            ChevronBackground: =gblPInput.ChevronBackground
+            ChevronFill: =gblPInput.ChevronFill
+            ChevronHoverBackground: =gblPInput.ChevronHoverBackground
+            ChevronHoverFill: =gblPInput.ChevronHoverFill
+            Color: =gblPInput.Color
+            DefaultSelectedItems: =
+            DisplayFields: =["Value"]
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="Document Category"
+            IsSearchable: =false
+            Items: =["Active", "Archived"]
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            SearchFields: =["Value"]
+            SearchItems: =[]
+            SelectionTagColor: =gblPInput.SelectionTagColor
+            SelectionTagFill: =gblPInput.SelectionTagFill
+            SelectMultiple: =false
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            X: =TxtIssuingDept.X
+            Y: =232
+            ZIndex: =33
+
+        LblShareToEmail As label:
+            BorderColor: =gblPLabel.BorderColor
+            BorderStyle: =gblPLabel.BorderStyle
+            BorderThickness: =gblPLabel.BorderThickness
+            Color: =gblPLabel.Color
+            Fill: =gblPLabel.Fill
+            Font: =gblPLabel.Font
+            FontWeight: =gblPLabel.FontWeight
+            Height: =gblPLabel.Height-6
+            Size: =gblPLabel.Size
+            Text: ="Share To"
+            Visible: =lclShowFilter
+            Width: =LblIssuingDept.Width
+            X: =803
+            Y: =190
+            ZIndex: =34
+
+        CmbxShareToEmail As combobox:
+            BorderColor: =gblPInput.BorderColor
+            BorderStyle: =gblPInput.BorderStyle
+            BorderThickness: =gblPInput.BorderThickness
+            ChevronBackground: =gblPInput.ChevronBackground
+            ChevronFill: =gblPInput.ChevronFill
+            ChevronHoverBackground: =gblPInput.ChevronHoverBackground
+            ChevronHoverFill: =gblPInput.ChevronHoverFill
+            Color: =gblPInput.Color
+            DefaultSelectedItems: =
+            DisplayFields: =["Result"]
+            Fill: =gblPInput.Fill
+            FocusedBorderThickness: =gblPInput.FocusedBorderThickness
+            Font: =gblPInput.Font
+            FontWeight: =gblPInput.FontWeight
+            Height: =gblPInput.Height
+            HoverBorderColor: =gblPInput.HoverBorderColor
+            HoverColor: =gblPInput.HoverColor
+            HoverFill: =gblPInput.HoverFill
+            InputTextPlaceholder: ="Document Category"
+            IsSearchable: =false
+            Items: |-
+                =ForAll(Distinct(User, Dept), {Result: ThisRecord.Value}).Result
+            PressedBorderColor: =gblPInput.PressedBorderColor
+            PressedColor: =gblPInput.PressedColor
+            PressedFill: =gblPInput.PressedFill
+            SearchFields: =["Result"]
+            SearchItems: =[]
+            SelectionTagColor: =gblPInput.SelectionTagColor
+            SelectionTagFill: =gblPInput.SelectionTagFill
+            SelectMultiple: =false
+            Size: =gblPInput.Size
+            Visible: =lclShowFilter
+            X: =968
+            Y: =190
+            ZIndex: =35
+
+    GrpNav_Legal As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =38
+
+        BtnSave_LegalList As button:
+            Align: =Align.Right
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.LegalRole = gblConstRole.UPLOADER || gblUserInfo.LegalRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            FocusedBorderThickness: =2
+            Height: =26
+            HoverBorderColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =Color.Black
+            OnSelect: |-
+                =Set(
+                    gblLegalDB,
+                    Blank()
+                );
+                NewForm(FrmLegal);
+                Navigate(
+                    ScrnLegalForm,
+                    ScreenTransition.Fade
+                )
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =20
+            PaddingTop: =0
+            PressedBorderColor: =RGBA(255, 255, 255, 1)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =Color.Black
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Size: =10
+            Text: ="NEW"
+            Width: =100
+            X: =1033
+            Y: =12
+            ZIndex: =4
+
+        BtnEdit_LegalList As button:
+            Align: =Align.Right
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.LegalRole = gblConstRole.UPLOADER || gblUserInfo.LegalRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            FocusedBorderThickness: =2
+            Height: =26
+            HoverFill: =Color.Black
+            OnSelect: |-
+                =Set(
+                    gblLegalDB,
+                    GalLegal.Selected
+                );
+                EditForm(FrmLegal);
+                Navigate(
+                    ScrnLegalForm,
+                    ScreenTransition.Fade
+                )
+            PaddingRight: =20
+            PressedBorderColor: =ColorFade(Self.BorderColor, 20%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =Color.Black
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Size: =10
+            Text: ="EDIT"
+            Width: =100
+            X: =922
+            Y: =12
+            ZIndex: =5
+
+        IcnEdit_LegalList As icon.Edit:
+            Color: =RGBA(255, 255, 255, 1)
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.LegalRole = gblConstRole.UPLOADER || gblUserInfo.LegalRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            Height: =26
+            Icon: =Icon.Edit
+            OnSelect: =Select(BtnEdit_LegalList)
+            Width: =17
+            X: =933
+            Y: =12
+            ZIndex: =6
+
+        IcnNew_LegaList As icon.Add:
+            Color: =Color.White
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.LegalRole = gblConstRole.UPLOADER || gblUserInfo.LegalRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            Height: =26
+            Icon: =Icon.Add
+            OnSelect: =Select(BtnSave_LegalList)
+            Width: =17
+            X: =1044
+            Y: =12
+            ZIndex: =7
+
+        BtnView_LegalList As button:
+            Align: =Align.Right
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =Color.Black
+            FocusedBorderThickness: =2
+            Height: =26
+            HoverFill: =Color.Black
+            OnSelect: =Launch(Concatenate(Last(GalLegal.Selected.Attachments).AbsoluteUri, "?web=1"))
+            PaddingBottom: =7
+            PaddingRight: =20
+            PressedBorderColor: =ColorFade(Self.BorderColor, 20%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =Color.Black
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Size: =10
+            Text: ="VIEW"
+            Width: =100
+            X: =811
+            Y: =12
+            ZIndex: =8
+
+        IcnView_LegalList As icon.Document:
+            Color: =Color.White
+            Fill: =Color.Transparent
+            Height: =26
+            Icon: =Icon.Document
+            OnSelect: =Select(BtnView_LegalList)
+            Width: =17
+            X: =822
+            Y: =12
+            ZIndex: =9
+
+        IcnMenu_LegalList As icon.Add:
+            Color: =Color.White
+            Height: =26
+            HoverColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Icon: =Icon.FilterFlat
+            OnSelect: |-
+                =UpdateContext({lclShowFilter: !lclShowFilter})
+            PressedColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Width: =27
+            X: =1282
+            Y: =12
+            ZIndex: =10
+
+        BtnArchive_LegalList As button:
+            Align: =Align.Right
+            BorderColor: =RGBA(255, 255, 255, 1)
+            BorderThickness: =0
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.LegalRole = gblConstRole.UPLOADER || gblUserInfo.LegalRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            FocusedBorderThickness: =2
+            Height: =27
+            HoverBorderColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =Color.Black
+            OnSelect: |-
+                =UpdateContext({lclShowConfirm:true})
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =20
+            PaddingTop: =0
+            PressedBorderColor: =RGBA(255, 255, 255, 1)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =Color.Black
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Size: =10
+            Text: ="ARCHIVE"
+            Width: =110
+            X: =1146
+            Y: =12
+            ZIndex: =11
+
+        IcnArchive_LegalList As icon.Document:
+            Color: =Color.White
+            DisplayMode: |-
+                =If(
+                    gblUserInfo.StoreOpsRole = gblConstRole.UPLOADER || gblUserInfo.StoreOpsRole = gblConstRole.ADMIN,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            Fill: =Color.Transparent
+            Height: =27
+            Icon: =Icon.Folder
+            OnSelect: =Select(BtnArchive_LegalList)
+            Width: =16
+            X: =1149
+            Y: =12
+            ZIndex: =12
+
+        IcnFilter_LegalList As icon.Add:
+            Color: =Color.White
+            Height: =26
+            HoverColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Icon: =Icon.Download
+            OnSelect: =//Select(excelexport_LegalList)
+            PressedColor: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            Width: =33
+            X: =1320
+            Y: =12
+            ZIndex: =36
+
+        excelexport_LegalList As excelexport:
+            BackgroundColor: ="transparent"
+            ButtonHeight: ="45"
+            ButtonText: =""
+            dataToExport: |-
+                =Substitute(
+                    Concatenate(
+                        "[",
+                        Concat(
+                            GalLegal.AllItems,
+                            "{" 
+                            & Char(34) & "Document Name" & Char(34) & ":" & Char(34) & DocumentName & Char(34) & "," 
+                            & Char(34) & "Issuing Department" & Char(34) & ":" & Char(34) & IssuingDept & Char(34) & "," 
+                            & Char(34) & "Responsible Person" & Char(34) & ":" & Char(34) & ResponsiblePerson & Char(34) & "," 
+                            & Char(34) & "Share To" & Char(34) & ":" & Char(34) & ShareTo_email & Char(34) & "," 
+                            & Char(34) & "Document Status" & Char(34) & ":" & Char(34) & DocumentStatus & Char(34)  
+                            & "},"
+                        ),
+                        "]"
+                    ),
+                    ",]",
+                    "]"
+                )
+            DisplayMode: =DisplayMode.Edit
+            FileName: ="Legal"
+            Height: =50
+            TextColor: ="transparent"
+            Tooltip: ="Export To Excel "
+            Width: =38
+            X: =1315
+            Y: =0
+            ZIndex: =37
+
